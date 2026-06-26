@@ -1,2 +1,26 @@
 title: Erfan Shahali
-description: Personal Portfolio
+description: Software Engineer | .NET Developer | Backend Developer
+url: "https://erfooon.github.io"
+baseurl: ""
+
+theme: jekyll-theme-minimal
+
+author:
+  name: Erfan Shahali
+  email: your-email@example.com
+
+github:
+  is_project_page: false
+  repository_url: https://github.com/Erfooon/Erfooon.github.io
+
+show_downloads: false
+
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+lang: en
+timezone: Asia/Tehran
+
+markdown: kramdown
+highlighter: rouge
