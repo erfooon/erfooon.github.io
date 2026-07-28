@@ -4,12 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>پنل زنده مدیریت مزرعه هوشمند</title>
-    <!-- Leaflet CSS -->
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
     />
-    <!-- Font -->
     <link
       href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;900&display=swap"
       rel="stylesheet"
@@ -32,7 +30,6 @@
         min-height: 100vh;
         overflow-x: hidden;
       }
-
       ::-webkit-scrollbar {
         width: 6px;
       }
@@ -61,24 +58,24 @@
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border-bottom: 1px solid rgba(255, 255, 255, 0.5);
-        padding: 16px 24px;
+        padding: 12px 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
-        gap: 12px;
+        gap: 8px;
         box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
       }
       .header-left {
         display: flex;
         align-items: center;
-        gap: 14px;
+        gap: 12px;
       }
       .header-left .logo {
-        font-size: 30px;
+        font-size: 26px;
       }
       .header-left h1 {
-        font-size: 20px;
+        font-size: 17px;
         font-weight: 900;
         background: linear-gradient(135deg, #0a7a5a, #1080c0);
         -webkit-background-clip: text;
@@ -86,30 +83,31 @@
         background-clip: text;
       }
       .header-left .sub {
-        font-size: 12px;
+        font-size: 11px;
         color: #5588aa;
         font-weight: 400;
       }
       .header-right {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 14px;
+        flex-wrap: wrap;
       }
       .header-right .live-badge {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 5px;
         background: rgba(0, 180, 120, 0.12);
         border: 1px solid rgba(0, 180, 120, 0.25);
         border-radius: 20px;
-        padding: 4px 14px;
-        font-size: 12px;
+        padding: 3px 12px;
+        font-size: 11px;
         color: #0a7a5a;
         font-weight: 600;
       }
       .header-right .live-badge .dot {
-        width: 8px;
-        height: 8px;
+        width: 7px;
+        height: 7px;
         border-radius: 50%;
         background: #0a7a5a;
         animation: pulseDot 1.5s ease-in-out infinite;
@@ -126,10 +124,76 @@
         }
       }
       .header-right .clock {
-        font-size: 14px;
+        font-size: 13px;
         color: #446688;
         font-weight: 600;
         direction: ltr;
+      }
+
+      /* ===== Farm Selector ===== */
+      .farm-selector {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 12px;
+        padding: 4px 6px;
+      }
+      .farm-btn {
+        background: transparent;
+        border: none;
+        border-radius: 10px;
+        padding: 6px 14px;
+        font-family: "Vazirmatn", sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        color: #446688;
+        cursor: pointer;
+        transition: all 0.25s;
+      }
+      .farm-btn:hover {
+        background: rgba(10, 122, 90, 0.06);
+        color: #0a7a5a;
+      }
+      .farm-btn.active {
+        background: rgba(10, 122, 90, 0.12);
+        color: #0a7a5a;
+        box-shadow: 0 2px 8px rgba(10, 122, 90, 0.08);
+      }
+      .farm-btn .f-icon {
+        margin-left: 4px;
+      }
+
+      /* ===== Action Buttons Bar ===== */
+      .action-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 12px;
+        padding: 4px 8px;
+      }
+      .action-btn {
+        background: transparent;
+        border: 1px solid rgba(10, 122, 90, 0.1);
+        border-radius: 10px;
+        padding: 5px 12px;
+        font-family: "Vazirmatn", sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        color: #446688;
+        cursor: pointer;
+        transition: all 0.25s;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+      .action-btn:hover {
+        background: rgba(10, 122, 90, 0.08);
+        border-color: rgba(10, 122, 90, 0.2);
+        color: #0a7a5a;
+        transform: translateY(-1px);
       }
 
       #toast-container {
@@ -231,39 +295,6 @@
         border-radius: 20px;
       }
 
-      .map-legend {
-        position: absolute;
-        bottom: 16px;
-        right: 16px;
-        z-index: 1000;
-        background: rgba(255, 255, 255, 0.75);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 14px;
-        padding: 12px 16px;
-        font-size: 12px;
-        color: #446688;
-        pointer-events: none;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-      }
-      .map-legend .row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 4px;
-      }
-      .map-legend .row:last-child {
-        margin-bottom: 0;
-      }
-      .map-legend .color-box {
-        width: 14px;
-        height: 14px;
-        border-radius: 4px;
-        flex-shrink: 0;
-      }
-
-      /* ===== Robot Overlay ===== */
       .robot-overlay {
         position: absolute;
         top: 16px;
@@ -274,16 +305,16 @@
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.5);
         border-radius: 16px;
-        padding: 14px 18px;
-        min-width: 200px;
+        padding: 12px 16px;
+        min-width: 180px;
         pointer-events: auto;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
       }
       .robot-overlay .d-title {
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 700;
         color: #1a2a3a;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -291,9 +322,9 @@
       .robot-overlay .d-row {
         display: flex;
         justify-content: space-between;
-        font-size: 12px;
+        font-size: 11px;
         color: #446688;
-        margin-bottom: 4px;
+        margin-bottom: 3px;
       }
       .robot-overlay .d-row .val {
         color: #0a7a5a;
@@ -303,7 +334,6 @@
         color: #d4880a;
       }
 
-      /* ===== Path Toggle Button ===== */
       .path-toggle-btn {
         position: absolute;
         top: 16px;
@@ -314,9 +344,9 @@
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.5);
         border-radius: 14px;
-        padding: 10px 18px;
+        padding: 8px 16px;
         font-family: "Vazirmatn", sans-serif;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 600;
         color: #0a7a5a;
         cursor: pointer;
@@ -331,8 +361,8 @@
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
       }
       .path-toggle-btn .toggle-dot {
-        width: 10px;
-        height: 10px;
+        width: 8px;
+        height: 8px;
         border-radius: 50%;
         background: #0a7a5a;
         display: inline-block;
@@ -342,35 +372,66 @@
         background: #88aacc;
       }
 
-      /* ===== Plots Panel ===== */
+      .map-legend {
+        position: absolute;
+        bottom: 12px;
+        right: 12px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 12px;
+        padding: 10px 14px;
+        font-size: 11px;
+        color: #446688;
+        pointer-events: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      }
+      .map-legend .row {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 3px;
+      }
+      .map-legend .row:last-child {
+        margin-bottom: 0;
+      }
+      .map-legend .color-box {
+        width: 12px;
+        height: 12px;
+        border-radius: 3px;
+        flex-shrink: 0;
+      }
+
       .plots-panel {
         background: rgba(255, 255, 255, 0.5);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         border: 1px solid rgba(255, 255, 255, 0.5);
         border-radius: 20px;
-        padding: 16px;
+        padding: 14px;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
-        gap: 14px;
+        gap: 10px;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
       }
       .plots-panel .panel-title {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 700;
         color: #1a2a3a;
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding-bottom: 10px;
+        gap: 8px;
+        padding-bottom: 8px;
         border-bottom: 1px solid rgba(0, 0, 0, 0.04);
         flex-shrink: 0;
       }
       .plots-list {
         display: flex;
         flex-direction: column;
-        gap: 12px;
+        gap: 10px;
         overflow-y: auto;
         padding-left: 4px;
       }
@@ -380,8 +441,8 @@
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.5);
-        border-radius: 16px;
-        padding: 14px 16px;
+        border-radius: 14px;
+        padding: 12px 14px;
         transition: all 0.3s;
         position: relative;
         overflow: hidden;
@@ -419,20 +480,20 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-bottom: 8px;
+        margin-bottom: 6px;
       }
       .plot-card .pc-header .pc-name {
-        font-size: 14px;
+        font-size: 13px;
         font-weight: 700;
         color: #1a2a3a;
         display: flex;
         align-items: center;
-        gap: 8px;
+        gap: 6px;
       }
       .plot-card .pc-header .pc-status {
-        font-size: 11px;
-        padding: 2px 10px;
-        border-radius: 10px;
+        font-size: 10px;
+        padding: 2px 8px;
+        border-radius: 8px;
         background: rgba(10, 122, 90, 0.1);
         color: #0a7a5a;
         font-weight: 600;
@@ -445,35 +506,33 @@
         background: rgba(200, 50, 50, 0.1);
         color: #c83232;
       }
-
       .sensor-grid-mini {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 4px;
+        gap: 3px;
       }
       .sensor-mini {
         background: rgba(255, 255, 255, 0.5);
-        border-radius: 6px;
-        padding: 3px 4px;
+        border-radius: 5px;
+        padding: 2px 3px;
         text-align: center;
-        font-size: 10px;
+        font-size: 9px;
       }
       .sensor-mini .sm-icon {
-        font-size: 12px;
+        font-size: 11px;
       }
       .sensor-mini .sm-val {
         font-weight: 700;
         color: #1a2a3a;
-        font-size: 10px;
+        font-size: 9px;
       }
-
       .plot-card .plot-img-preview {
-        margin-top: 8px;
-        border-radius: 10px;
+        margin-top: 6px;
+        border-radius: 8px;
         overflow: hidden;
         position: relative;
         background: #eef2f8;
-        height: 100px;
+        height: 80px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -485,12 +544,12 @@
       }
       .plot-card .plot-img-preview .img-label {
         position: absolute;
-        bottom: 4px;
-        right: 6px;
+        bottom: 3px;
+        right: 5px;
         background: rgba(255, 255, 255, 0.8);
-        font-size: 9px;
-        padding: 2px 8px;
-        border-radius: 6px;
+        font-size: 8px;
+        padding: 2px 6px;
+        border-radius: 5px;
         color: #446688;
         font-weight: 500;
       }
@@ -568,23 +627,23 @@
         padding-left: 40px;
       }
       .modal-box .m-header .m-emoji {
-        font-size: 40px;
+        font-size: 36px;
       }
       .modal-box .m-header .m-title {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 900;
         color: #1a2a3a;
       }
       .modal-box .m-header .m-sub {
-        font-size: 13px;
+        font-size: 12px;
         color: #5588aa;
         margin-top: 2px;
       }
       .modal-box .m-header .m-badge {
         margin-right: auto;
-        padding: 4px 16px;
+        padding: 4px 14px;
         border-radius: 20px;
-        font-size: 13px;
+        font-size: 12px;
         font-weight: 700;
         background: rgba(10, 122, 90, 0.12);
         color: #0a7a5a;
@@ -600,8 +659,8 @@
       .modal-box .m-image {
         border-radius: 16px;
         overflow: hidden;
-        margin-bottom: 18px;
-        height: 200px;
+        margin-bottom: 16px;
+        height: 180px;
         background: #eef2f8;
         display: flex;
         align-items: center;
@@ -628,7 +687,7 @@
         font-size: 14px;
         font-weight: 700;
         color: #1a2a3a;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
         display: flex;
         align-items: center;
         gap: 8px;
@@ -636,13 +695,13 @@
       .modal-box .m-sensor-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
-        gap: 10px;
+        gap: 8px;
       }
       .modal-box .m-sensor-item {
         background: rgba(255, 255, 255, 0.5);
         border: 1px solid rgba(255, 255, 255, 0.4);
-        border-radius: 14px;
-        padding: 12px 10px;
+        border-radius: 12px;
+        padding: 10px 8px;
         text-align: center;
         transition: all 0.2s;
       }
@@ -652,19 +711,19 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
       }
       .modal-box .m-sensor-item .ms-icon {
-        font-size: 22px;
+        font-size: 20px;
         display: block;
-        margin-bottom: 4px;
+        margin-bottom: 3px;
       }
       .modal-box .m-sensor-item .ms-label {
-        font-size: 11px;
+        font-size: 10px;
         color: #5588aa;
         display: block;
         margin-bottom: 2px;
         font-weight: 500;
       }
       .modal-box .m-sensor-item .ms-value {
-        font-size: 16px;
+        font-size: 15px;
         font-weight: 800;
         color: #1a2a3a;
       }
@@ -678,16 +737,89 @@
         color: #c83232;
       }
 
+      /* ===== Form Modal (Demo) ===== */
+      .form-modal {
+        display: none;
+      }
+      .form-modal.open {
+        display: flex;
+      }
+      .form-box {
+        max-width: 480px;
+      }
+      .form-box .f-group {
+        margin-bottom: 16px;
+      }
+      .form-box .f-label {
+        display: block;
+        font-size: 13px;
+        font-weight: 600;
+        color: #1a2a3a;
+        margin-bottom: 6px;
+      }
+      .form-box .f-input {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.6);
+        font-family: "Vazirmatn", sans-serif;
+        font-size: 13px;
+        color: #1a2a3a;
+        outline: none;
+        transition: all 0.2s;
+      }
+      .form-box .f-input:focus {
+        border-color: rgba(10, 122, 90, 0.3);
+        box-shadow: 0 0 0 3px rgba(10, 122, 90, 0.06);
+      }
+      .form-box .f-select {
+        width: 100%;
+        padding: 10px 14px;
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.6);
+        font-family: "Vazirmatn", sans-serif;
+        font-size: 13px;
+        color: #1a2a3a;
+        outline: none;
+      }
+      .form-box .f-btn {
+        padding: 10px 24px;
+        border: none;
+        border-radius: 12px;
+        font-family: "Vazirmatn", sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: #fff;
+        background: linear-gradient(135deg, #0a7a5a, #1080c0);
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+      .form-box .f-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(10, 122, 90, 0.2);
+      }
+      .form-box .f-btn-secondary {
+        background: rgba(0, 0, 0, 0.04);
+        color: #446688;
+      }
+      .form-box .f-btn-row {
+        display: flex;
+        gap: 10px;
+        margin-top: 8px;
+      }
+
       @media (max-width: 1024px) {
         .main-layout {
           grid-template-columns: 1fr;
           height: auto;
         }
         .map-section {
-          height: 500px;
+          height: 450px;
         }
         .plots-panel {
-          max-height: 500px;
+          max-height: 450px;
         }
         .modal-box .m-sensor-grid {
           grid-template-columns: repeat(3, 1fr);
@@ -703,7 +835,7 @@
           justify-content: space-between;
         }
         .map-section {
-          height: 350px;
+          height: 300px;
         }
         #toast-container {
           max-width: 280px;
@@ -721,6 +853,13 @@
         }
         .modal-box .m-header .m-badge {
           margin-right: 0;
+        }
+        .action-bar {
+          width: 100%;
+        }
+        .farm-selector {
+          width: 100%;
+          justify-content: center;
         }
       }
 
@@ -767,6 +906,42 @@
         </div>
       </div>
       <div class="header-right">
+        <div class="farm-selector">
+          <button
+            class="farm-btn active"
+            data-farm="farm1"
+            onclick="switchFarm('farm1')"
+          >
+            <span class="f-icon">🌿</span> زمین ۱
+          </button>
+          <button
+            class="farm-btn"
+            data-farm="farm2"
+            onclick="switchFarm('farm2')"
+          >
+            <span class="f-icon">🌳</span> زمین ۲
+          </button>
+          <button class="farm-btn" onclick="showFormModal('addFarm')">
+            <span class="f-icon">➕</span> افزودن زمین
+          </button>
+        </div>
+        <div class="action-bar">
+          <button class="action-btn" onclick="showFormModal('newPlot')">
+            <span>➕</span> قطعه جدید
+          </button>
+          <button class="action-btn" onclick="showFormModal('connectSensor')">
+            <span>🔗</span> اتصال سنسور
+          </button>
+          <button class="action-btn" onclick="showFormModal('addDrone')">
+            <span>🛸</span> افزودن پهپاد
+          </button>
+          <button class="action-btn" onclick="showFormModal('irrigation')">
+            <span>💧</span> آبیاری
+          </button>
+          <button class="action-btn" onclick="showFormModal('report')">
+            <span>📊</span> گزارش
+          </button>
+        </div>
         <div class="live-badge"><span class="dot"></span><span>Live</span></div>
         <span class="clock" id="clockDisplay">--:--:--</span>
       </div>
@@ -774,7 +949,7 @@
 
     <div id="toast-container"></div>
 
-    <!-- ===== MODAL ===== -->
+    <!-- ===== Plot Detail Modal ===== -->
     <div class="modal-overlay" id="plotModal">
       <div class="modal-box">
         <button class="modal-close" id="modalCloseBtn">✕</button>
@@ -787,51 +962,74 @@
           <span class="m-badge" id="modalBadge">● نرمال</span>
         </div>
         <div class="m-image">
-          <img id="modalImage" src="" alt="تصویر قطعه" />
-          <span class="m-img-label" id="modalImgLabel">🕐 --</span>
+          <img id="modalImage" src="" alt="تصویر قطعه" /><span
+            class="m-img-label"
+            id="modalImgLabel"
+            >🕐 --</span
+          >
         </div>
         <div class="m-sensor-title">📊 وضعیت سنسورها</div>
         <div class="m-sensor-grid" id="modalSensorGrid"></div>
       </div>
     </div>
 
+    <!-- ===== Form Modals (Demo - Non-functional) ===== -->
+    <!-- New Plot -->
+    <div class="modal-overlay form-modal" id="formModal">
+      <div class="modal-box form-box">
+        <button class="modal-close" onclick="closeFormModal()">✕</button>
+        <div class="m-header" style="padding-left: 0">
+          <span class="m-emoji" id="formEmoji">➕</span>
+          <div>
+            <div class="m-title" id="formTitle">ایجاد قطعه جدید</div>
+            <div class="m-sub" id="formDesc">فرم نمایشی - صرفا برای نمونه</div>
+          </div>
+        </div>
+        <div id="formContent">
+          <!-- Dynamic form content -->
+        </div>
+        <div
+          style="
+            text-align: center;
+            margin-top: 12px;
+            font-size: 11px;
+            color: #88aacc;
+          "
+        >
+          ⚡ این فرم صرفاً جنبه نمایشی دارد و عملیاتی نیست
+        </div>
+      </div>
+    </div>
+
     <div class="main-layout">
       <div class="map-section">
         <div id="map"></div>
-
-        <!-- Robot Overlay -->
         <div class="robot-overlay">
           <div class="d-title">🤖 ربات سمپاش هوشمند</div>
           <div class="d-row">
-            <span>مختصات</span
-            ><span class="val" id="robotCoord">N 35°45' E 51°23'</span>
+            <span>مختصات</span><span class="val" id="robotCoord">--</span>
           </div>
           <div class="d-row">
-            <span>سرعت</span><span class="val" id="robotSpeed">۱.۲ m/s</span>
+            <span>سرعت</span><span class="val" id="robotSpeed">--</span>
           </div>
           <div class="d-row">
-            <span>نرخ پاشش</span
-            ><span class="val warn" id="robotRate">۲.۸ L/min</span>
+            <span>نرخ پاشش</span><span class="val warn" id="robotRate">--</span>
           </div>
           <div class="d-row">
             <span>مصرف کود</span
-            ><span class="val" id="robotFertilizer">۱۲۵ L</span>
+            ><span class="val" id="robotFertilizer">--</span>
           </div>
           <div class="d-row">
             <span>نوع کود</span><span class="val">NPK 20-20-20</span>
           </div>
           <div class="d-row">
-            <span>پیشرفت مسیر</span
-            ><span class="val" id="robotProgress">۰%</span>
+            <span>پیشرفت</span><span class="val" id="robotProgress">۰%</span>
           </div>
         </div>
-
-        <!-- Path Toggle Button -->
         <button class="path-toggle-btn" id="pathToggleBtn">
-          <span class="toggle-dot" id="pathToggleDot"></span>
-          <span id="pathToggleLabel">نمایش مسیر</span>
+          <span class="toggle-dot" id="pathToggleDot"></span
+          ><span id="pathToggleLabel">نمایش مسیر</span>
         </button>
-
         <div class="map-legend">
           <div class="row">
             <span
@@ -855,15 +1053,15 @@
             ><span>تنش رطوبتی</span>
           </div>
           <div class="row">
-            <span style="color: #0a7a5a; font-size: 16px">🤖</span
+            <span style="color: #0a7a5a; font-size: 14px">🤖</span
             ><span>ربات فعال</span>
           </div>
           <div class="row">
-            <span style="color: #0a7a5a; font-size: 12px">━━</span
+            <span style="color: #0a7a5a; font-size: 11px">━━</span
             ><span>مسیر رفته</span>
           </div>
           <div class="row">
-            <span style="color: #88aacc; font-size: 12px">- - -</span
+            <span style="color: #88aacc; font-size: 11px">- - -</span
             ><span>مسیر برنامه‌ریزی‌شده</span>
           </div>
         </div>
@@ -885,7 +1083,7 @@
         const canvas = document.getElementById("particles-canvas");
         const ctx = canvas.getContext("2d");
         let particles = [];
-        const COUNT = 60;
+        const COUNT = 40;
         function resize() {
           canvas.width = window.innerWidth;
           canvas.height = window.innerHeight;
@@ -900,9 +1098,9 @@
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
             this.size = Math.random() * 2 + 0.5;
-            this.speedX = (Math.random() - 0.5) * 0.3;
-            this.speedY = (Math.random() - 0.5) * 0.3;
-            this.opacity = Math.random() * 0.3 + 0.05;
+            this.speedX = (Math.random() - 0.5) * 0.2;
+            this.speedY = (Math.random() - 0.5) * 0.2;
+            this.opacity = Math.random() * 0.25 + 0.03;
           }
           update() {
             this.x += this.speedX;
@@ -931,11 +1129,11 @@
           }
           for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
-              const dx = particles[i].x - particles[j].x;
-              const dy = particles[i].y - particles[j].y;
-              const dist = Math.sqrt(dx * dx + dy * dy);
+              const dx = particles[i].x - particles[j].x,
+                dy = particles[i].y - particles[j].y,
+                dist = Math.sqrt(dx * dx + dy * dy);
               if (dist < 150) {
-                const alpha = (1 - dist / 150) * 0.06;
+                const alpha = (1 - dist / 150) * 0.04;
                 ctx.beginPath();
                 ctx.moveTo(particles[i].x, particles[i].y);
                 ctx.lineTo(particles[j].x, particles[j].y);
@@ -967,19 +1165,16 @@
         "D2",
         "D3",
       ];
-
       const sampleImages = [
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23d4e8d4'/%3E%3Ccircle cx='120' cy='100' r='30' fill='%234a9a4a' opacity='0.4'/%3E%3Ccircle cx='260' cy='80' r='25' fill='%235aaa5a' opacity='0.3'/%3E%3Ccircle cx='200' cy='140' r='20' fill='%233a8a3a' opacity='0.3'/%3E%3Ctext x='30' y='30' fill='%23448866' font-size='14' font-family='sans-serif'%3E2026-07-28 10:32%3C/text%3E%3C/svg%3E",
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23d8dcc4'/%3E%3Ccircle cx='180' cy='90' r='35' fill='%234a8a3a' opacity='0.4'/%3E%3Ccircle cx='300' cy='120' r='20' fill='%233a7a3a' opacity='0.3'/%3E%3Ctext x='30' y='30' fill='%23448866' font-size='14' font-family='sans-serif'%3E2026-07-28 09:45%3C/text%3E%3C/svg%3E",
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23c8ddd0'/%3E%3Ccircle cx='100' cy='110' r='28' fill='%233a7a6a' opacity='0.4'/%3E%3Ccircle cx='250' cy='70' r='22' fill='%234a8a5a' opacity='0.3'/%3E%3Ctext x='30' y='30' fill='%23448866' font-size='14' font-family='sans-serif'%3E2026-07-28 11:10%3C/text%3E%3C/svg%3E",
         "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23d4d4c8'/%3E%3Ccircle cx='140' cy='80' r='32' fill='%234a8a4a' opacity='0.4'/%3E%3Ccircle cx='280' cy='130' r='18' fill='%233a7a4a' opacity='0.3'/%3E%3Ctext x='30' y='30' fill='%23448866' font-size='14' font-family='sans-serif'%3E2026-07-28 08:20%3C/text%3E%3C/svg%3E",
       ];
-
       function randomSensorValue(min, max, decimals) {
         if (decimals === undefined) decimals = 1;
         return (Math.random() * (max - min) + min).toFixed(decimals);
       }
-
       function generatePlotData(name) {
         return {
           name,
@@ -1091,53 +1286,448 @@
         };
       }
 
+      const farmData = {
+        farm1: {
+          name: "زمین ۱",
+          bounds: [
+            [35.752, 51.382],
+            [35.76, 51.394],
+          ],
+          center: [35.756, 51.388],
+          zoom: 17,
+        },
+        farm2: {
+          name: "زمین ۲",
+          bounds: [
+            [35.748, 51.378],
+            [35.762, 51.398],
+          ],
+          center: [35.755, 51.388],
+          zoom: 16,
+        },
+      };
+
+      let currentFarm = "farm1";
       let plots = plotNames.map((n) => generatePlotData(n));
+      let plotRects = [];
+      const map = L.map("map", {
+        center: farmData.farm1.center,
+        zoom: farmData.farm1.zoom,
+        zoomControl: true,
+        attributionControl: false,
+      });
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        { maxZoom: 20 },
+      ).addTo(map);
 
       // ================================================================
-      // 2. RENDER PLOTS
+      // 2. FIELD RENDER
       // ================================================================
-      function renderPlots(activeName) {
-        const list = document.getElementById("plotsList");
-        list.innerHTML = "";
-        for (const p of plots) {
-          const card = document.createElement("div");
-          card.className =
-            "plot-card" + (p.name === activeName ? " active" : "");
-          card.dataset.plot = p.name;
-          const keys = Object.keys(p.sensors);
-          let miniHtml = "";
-          for (let i = 0; i < 4 && i < keys.length; i++) {
-            const s = p.sensors[keys[i]];
-            miniHtml += `<div class="sensor-mini"><span class="sm-icon">${s.icon}</span> <span class="sm-val">${s.value}</span></div>`;
+      function renderFarm(farmId) {
+        currentFarm = farmId;
+        const fd = farmData[farmId];
+
+        // Update active button
+        document
+          .querySelectorAll(".farm-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document
+          .querySelector(`.farm-btn[data-farm="${farmId}"]`)
+          ?.classList.add("active");
+
+        // Clear existing overlays (keep tile layer)
+        map.eachLayer((layer) => {
+          if (layer instanceof L.TileLayer) return;
+          map.removeLayer(layer);
+        });
+
+        plotRects = [];
+
+        if (farmId === "farm1") {
+          // Rectangular grid
+          const rows = 3,
+            cols = 4;
+          const lngStep = (fd.bounds[1][1] - fd.bounds[0][1]) / cols;
+          const latStep = (fd.bounds[1][0] - fd.bounds[0][0]) / rows;
+          for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+              const idx = r * cols + c;
+              const name = plotNames[idx] || `P${idx + 1}`;
+              const south = fd.bounds[0][0] + r * latStep;
+              const north = south + latStep;
+              const west = fd.bounds[0][1] + c * lngStep;
+              const east = west + lngStep;
+              const center = [(south + north) / 2, (west + east) / 2];
+              const moisture = Math.random();
+              let fillColor = "#0a7a5a",
+                opacity = 0.15;
+              if (moisture < 0.3) {
+                fillColor = "#c83232";
+                opacity = 0.15;
+              } else if (moisture < 0.5) {
+                fillColor = "#d4880a";
+                opacity = 0.15;
+              }
+              const rect = L.rectangle(
+                [
+                  [south, west],
+                  [north, east],
+                ],
+                {
+                  color: "rgba(10,122,90,0.15)",
+                  weight: 1.5,
+                  fillColor,
+                  fillOpacity: opacity,
+                },
+              ).addTo(map);
+              rect.bindPopup(
+                `<div style="text-align:center;min-width:140px;"><div style="font-size:18px;font-weight:700;margin-bottom:4px;color:#1a2a3a;">📦 قطعه ${name}</div><div style="font-size:12px;color:#446688;">وضعیت: ${plots[idx]?.status || "نرمال"}</div><div style="font-size:12px;color:#446688;">رطوبت خاک: ${plots[idx]?.sensors?.soilMoisture?.value || "--"}</div><div style="margin-top:8px;"><button onclick="openPlotModal('${name}')" style="background:rgba(10,122,90,0.12);border:1px solid rgba(10,122,90,0.2);border-radius:10px;padding:6px 16px;cursor:pointer;font-family:Vazirmatn,sans-serif;font-size:12px;color:#0a7a5a;font-weight:600;">مشاهده جزئیات</button></div></div>`,
+              );
+              rect.on("click", () => openPlotModal(name));
+              plotRects.push({ name, rect, center });
+            }
           }
-          const statusClass =
-            p.status === "هشدار"
-              ? "warn"
-              : p.status === "نرمال"
-                ? ""
-                : "critical";
-          card.innerHTML = `
-            <div class="pc-header">
-              <div class="pc-name">📦 قطعه ${p.name}</div>
-              <span class="pc-status ${statusClass}">● ${p.status}</span>
-            </div>
-            <div class="sensor-grid-mini">${miniHtml}</div>
-            <div class="plot-img-preview">
-              <img src="${p.image}" alt="تصویر ${p.name}" />
-              <span class="img-label">🕐 ${p.imgTime}</span>
-            </div>
-          `;
-          card.addEventListener("click", () => {
-            renderPlots(p.name);
-            highlightPlotOnMap(p.name);
-            openPlotModal(p.name);
+        } else {
+          // Irregular field - non-rectangular polygons
+          const irregularPlots = [
+            // Calculate bounds from plot vertices for robot path
+            // We'll compute the actual min/max lat/lng from all plot points
+            {
+              name: "M1",
+              pts: [
+                [35.752, 51.38],
+                [35.754, 51.378],
+                [35.757, 51.379],
+                [35.758, 51.382],
+                [35.756, 51.383],
+              ],
+            },
+            {
+              name: "M2",
+              pts: [
+                [35.758, 51.382],
+                [35.76, 51.384],
+                [35.761, 51.388],
+                [35.758, 51.389],
+                [35.756, 51.386],
+              ],
+            },
+            {
+              name: "M3",
+              pts: [
+                [35.758, 51.389],
+                [35.76, 51.392],
+                [35.759, 51.395],
+                [35.756, 51.394],
+                [35.755, 51.391],
+              ],
+            },
+            {
+              name: "M4",
+              pts: [
+                [35.753, 51.383],
+                [35.755, 51.38],
+                [35.757, 51.382],
+                [35.756, 51.385],
+                [35.754, 51.385],
+              ],
+            },
+            {
+              name: "M5",
+              pts: [
+                [35.75, 51.381],
+                [35.752, 51.379],
+                [35.754, 51.381],
+                [35.753, 51.384],
+                [35.751, 51.383],
+              ],
+            },
+            {
+              name: "M6",
+              pts: [
+                [35.751, 51.384],
+                [35.753, 51.386],
+                [35.754, 51.39],
+                [35.751, 51.389],
+                [35.749, 51.387],
+              ],
+            },
+            {
+              name: "M7",
+              pts: [
+                [35.754, 51.385],
+                [35.756, 51.384],
+                [35.758, 51.386],
+                [35.756, 51.388],
+                [35.754, 51.387],
+              ],
+            },
+            {
+              name: "M8",
+              pts: [
+                [35.752, 51.386],
+                [35.754, 51.388],
+                [35.755, 51.391],
+                [35.752, 51.39],
+                [35.75, 51.389],
+              ],
+            },
+          ];
+          irregularPlots.forEach((p, idx) => {
+            const moisture = Math.random();
+            let fillColor = "#0a7a5a",
+              opacity = 0.15;
+            if (moisture < 0.3) {
+              fillColor = "#c83232";
+              opacity = 0.15;
+            } else if (moisture < 0.5) {
+              fillColor = "#d4880a";
+              opacity = 0.15;
+            }
+            const polygon = L.polygon(p.pts, {
+              color: "rgba(10,122,90,0.15)",
+              weight: 1.5,
+              fillColor,
+              fillOpacity: opacity,
+            }).addTo(map);
+            const center = polygon.getBounds().getCenter();
+            polygon.bindPopup(
+              `<div style="text-align:center;min-width:140px;"><div style="font-size:18px;font-weight:700;margin-bottom:4px;color:#1a2a3a;">📦 قطعه ${p.name}</div><div style="font-size:12px;color:#446688;">وضعیت: ${plots[idx % plots.length]?.status || "نرمال"}</div><div style="font-size:12px;color:#446688;">رطوبت خاک: ${plots[idx % plots.length]?.sensors?.soilMoisture?.value || "--"}</div><div style="margin-top:8px;"><button onclick="openPlotModal('${p.name}')" style="background:rgba(10,122,90,0.12);border:1px solid rgba(10,122,90,0.2);border-radius:10px;padding:6px 16px;cursor:pointer;font-family:Vazirmatn,sans-serif;font-size:12px;color:#0a7a5a;font-weight:600;">مشاهده جزئیات</button></div></div>`,
+            );
+            polygon.on("click", () => openPlotModal(p.name));
+            plotRects.push({ name: p.name, rect: polygon, center });
           });
-          list.appendChild(card);
         }
+
+        // Re-add robot + path + toggle
+        setupRobot(farmId);
+        setupPathToggle();
+
+        map.fitBounds(fd.bounds, { padding: [30, 30] });
       }
 
       // ================================================================
-      // 3. MODAL
+      // 3. ROBOT + PATH
+      // ================================================================
+      let robotPathIndex = 0,
+        traveledPoints = [];
+      let robotMarker, plannedPathLine, traveledPathLine;
+      let pathVisible = true;
+      let pathPoints = [];
+      let robotInterval;
+
+      function setupRobot(farmId) {
+        // Clear existing robot artifacts
+        if (robotMarker) map.removeLayer(robotMarker);
+        if (plannedPathLine) map.removeLayer(plannedPathLine);
+        if (traveledPathLine) map.removeLayer(traveledPathLine);
+        if (robotInterval) clearInterval(robotInterval);
+
+        // Compute actual bounds from plot vertices so robot stays inside the plots
+        let minLat = Infinity,
+          maxLat = -Infinity,
+          minLng = Infinity,
+          maxLng = -Infinity;
+        const irregularPlots = [
+          {
+            pts: [
+              [35.752, 51.38],
+              [35.754, 51.378],
+              [35.757, 51.379],
+              [35.758, 51.382],
+              [35.756, 51.383],
+            ],
+          },
+          {
+            pts: [
+              [35.758, 51.382],
+              [35.76, 51.384],
+              [35.761, 51.388],
+              [35.758, 51.389],
+              [35.756, 51.386],
+            ],
+          },
+          {
+            pts: [
+              [35.758, 51.389],
+              [35.76, 51.392],
+              [35.759, 51.395],
+              [35.756, 51.394],
+              [35.755, 51.391],
+            ],
+          },
+          {
+            pts: [
+              [35.753, 51.383],
+              [35.755, 51.38],
+              [35.757, 51.382],
+              [35.756, 51.385],
+              [35.754, 51.385],
+            ],
+          },
+          {
+            pts: [
+              [35.75, 51.381],
+              [35.752, 51.379],
+              [35.754, 51.381],
+              [35.753, 51.384],
+              [35.751, 51.383],
+            ],
+          },
+          {
+            pts: [
+              [35.751, 51.384],
+              [35.753, 51.386],
+              [35.754, 51.39],
+              [35.751, 51.389],
+              [35.749, 51.387],
+            ],
+          },
+          {
+            pts: [
+              [35.754, 51.385],
+              [35.756, 51.384],
+              [35.758, 51.386],
+              [35.756, 51.388],
+              [35.754, 51.387],
+            ],
+          },
+          {
+            pts: [
+              [35.752, 51.386],
+              [35.754, 51.388],
+              [35.755, 51.391],
+              [35.752, 51.39],
+              [35.75, 51.389],
+            ],
+          },
+        ];
+        if (farmId === "farm2") {
+          for (const plot of irregularPlots) {
+            for (const pt of plot.pts) {
+              if (pt[0] < minLat) minLat = pt[0];
+              if (pt[0] > maxLat) maxLat = pt[0];
+              if (pt[1] < minLng) minLng = pt[1];
+              if (pt[1] > maxLng) maxLng = pt[1];
+            }
+          }
+        } else {
+          minLat = farmData.farm1.bounds[0][0];
+          maxLat = farmData.farm1.bounds[1][0];
+          minLng = farmData.farm1.bounds[0][1];
+          maxLng = farmData.farm1.bounds[1][1];
+        }
+
+        const numPasses = 10;
+        const passLatStep = (maxLat - minLat) / numPasses;
+        const lngMin = minLng,
+          lngMax = maxLng;
+        pathPoints = [];
+        for (let i = 0; i <= numPasses; i++) {
+          const lat = minLat + i * passLatStep;
+          if (i % 2 === 0) {
+            pathPoints.push([lat, lngMin]);
+            pathPoints.push([lat, lngMax]);
+          } else {
+            pathPoints.push([lat, lngMax]);
+            pathPoints.push([lat, lngMin]);
+          }
+        }
+        pathPoints.push([minLat, lngMin]);
+
+        const robotIcon = L.divIcon({
+          className: "",
+          html: `<div style="font-size:30px;filter:drop-shadow(0 0 12px rgba(10,122,90,0.4));">🤖</div>`,
+          iconSize: [30, 30],
+          iconAnchor: [15, 15],
+        });
+        robotMarker = L.marker(pathPoints[0], {
+          icon: robotIcon,
+          zIndexOffset: 1000,
+        }).addTo(map);
+        robotMarker.bindPopup(
+          `<div style="text-align:center;min-width:140px;"><div style="font-size:18px;margin-bottom:4px;color:#1a2a3a;">🤖 ربات سمپاش</div><div style="font-size:11px;color:#446688;">NPK 20-20-20</div></div>`,
+        );
+
+        plannedPathLine = L.polyline(pathPoints, {
+          color: "#88aacc",
+          weight: 2,
+          opacity: pathVisible ? 0.5 : 0,
+          dashArray: "8,8",
+          lineCap: "round",
+          lineJoin: "round",
+        }).addTo(map);
+        traveledPathLine = L.polyline([], {
+          color: "#0a7a5a",
+          weight: 3.5,
+          opacity: pathVisible ? 0.8 : 0,
+          lineCap: "round",
+          lineJoin: "round",
+        }).addTo(map);
+
+        robotPathIndex = 0;
+        traveledPoints = [pathPoints[0]];
+        traveledPathLine.setLatLngs(traveledPoints);
+
+        // Slower, more realistic speed for farm2 (larger area)
+        const intervalMs = farmId === "farm2" ? 500 : 300;
+        robotInterval = setInterval(moveRobot, intervalMs);
+      }
+
+      function moveRobot() {
+        robotPathIndex = (robotPathIndex + 1) % pathPoints.length;
+        const pos = pathPoints[robotPathIndex];
+        robotMarker.setLatLng(pos);
+        traveledPoints.push(pos);
+        traveledPathLine.setLatLngs(traveledPoints);
+        document.getElementById("robotCoord").textContent =
+          `N ${pos[0].toFixed(4)} E ${pos[1].toFixed(4)}`;
+        document.getElementById("robotSpeed").textContent =
+          (Math.random() * 0.5 + 1.0).toFixed(1) + " m/s";
+        document.getElementById("robotRate").textContent =
+          (Math.random() * 1.5 + 2).toFixed(1) + " L/min";
+        document.getElementById("robotFertilizer").textContent =
+          (Math.random() * 30 + 110).toFixed(0) + " L";
+        document.getElementById("robotProgress").textContent =
+          Math.round((robotPathIndex / (pathPoints.length - 1)) * 100) + "%";
+        if (robotPathIndex === pathPoints.length - 1) {
+          setTimeout(() => {
+            robotPathIndex = 0;
+            traveledPoints = [pathPoints[0]];
+            traveledPathLine.setLatLngs(traveledPoints);
+            robotMarker.setLatLng(pathPoints[0]);
+            document.getElementById("robotProgress").textContent = "۰%";
+          }, 2000);
+        }
+      }
+
+      function setupPathToggle() {
+        const btn = document.getElementById("pathToggleBtn");
+        const dot = document.getElementById("pathToggleDot");
+        const label = document.getElementById("pathToggleLabel");
+        btn.onclick = () => {
+          pathVisible = !pathVisible;
+          if (pathVisible) {
+            plannedPathLine.setStyle({ opacity: 0.5 });
+            traveledPathLine.setStyle({ opacity: 0.8 });
+            dot.className = "toggle-dot";
+            label.textContent = "نمایش مسیر";
+          } else {
+            plannedPathLine.setStyle({ opacity: 0 });
+            traveledPathLine.setStyle({ opacity: 0 });
+            dot.className = "toggle-dot off";
+            label.textContent = "مخفی کردن مسیر";
+          }
+        };
+      }
+
+      function switchFarm(id) {
+        renderFarm(id);
+      }
+
+      // ================================================================
+      // 4. MODAL
       // ================================================================
       const modal = document.getElementById("plotModal");
       const modalClose = document.getElementById("modalCloseBtn");
@@ -1184,239 +1774,112 @@
         if (e.target === modal) closePlotModal();
       });
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closePlotModal();
-      });
-
-      // ================================================================
-      // 4. MAP
-      // ================================================================
-      const map = L.map("map", {
-        center: [35.756, 51.388],
-        zoom: 17,
-        zoomControl: true,
-        attributionControl: false,
-      });
-      L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
-        { maxZoom: 20 },
-      ).addTo(map);
-
-      // ================================================================
-      // 5. FIELD GRID
-      // ================================================================
-      const gridBounds = [
-        [35.752, 51.382],
-        [35.76, 51.394],
-      ];
-      const rows = 3,
-        cols = 4;
-      const lngStep = (gridBounds[1][1] - gridBounds[0][1]) / cols;
-      const latStep = (gridBounds[1][0] - gridBounds[0][0]) / rows;
-      const plotRects = [];
-
-      for (let r = 0; r < rows; r++) {
-        for (let c = 0; c < cols; c++) {
-          const idx = r * cols + c;
-          const name = plotNames[idx] || `P${idx + 1}`;
-          const south = gridBounds[0][0] + r * latStep;
-          const north = south + latStep;
-          const west = gridBounds[0][1] + c * lngStep;
-          const east = west + lngStep;
-          const center = [(south + north) / 2, (west + east) / 2];
-          const moisture = Math.random();
-          let fillColor = "#0a7a5a",
-            opacity = 0.15;
-          if (moisture < 0.3) {
-            fillColor = "#c83232";
-            opacity = 0.15;
-          } else if (moisture < 0.5) {
-            fillColor = "#d4880a";
-            opacity = 0.15;
-          }
-          const rect = L.rectangle(
-            [
-              [south, west],
-              [north, east],
-            ],
-            {
-              color: "rgba(10,122,90,0.15)",
-              weight: 1.5,
-              fillColor,
-              fillOpacity: opacity,
-            },
-          ).addTo(map);
-          rect.bindPopup(`
-            <div style="text-align:center;min-width:140px;">
-              <div style="font-size:18px;font-weight:700;margin-bottom:4px;color:#1a2a3a;">📦 قطعه ${name}</div>
-              <div style="font-size:12px;color:#446688;">وضعیت: ${plots[idx]?.status || "نرمال"}</div>
-              <div style="font-size:12px;color:#446688;">رطوبت خاک: ${plots[idx]?.sensors?.soilMoisture?.value || "--"}</div>
-              <div style="margin-top:8px;">
-                <button onclick="document.querySelector('[data-plot="${name}"]')?.click()" style="background:rgba(10,122,90,0.12);border:1px solid rgba(10,122,90,0.2);border-radius:10px;padding:6px 16px;cursor:pointer;font-family:Vazirmatn,sans-serif;font-size:12px;color:#0a7a5a;font-weight:600;">مشاهده جزئیات</button>
-              </div>
-            </div>
-          `);
-          rect.on("click", () => {
-            renderPlots(name);
-            openPlotModal(name);
-          });
-          plotRects.push({ name, rect, center });
-        }
-      }
-
-      // ================================================================
-      // 6. ROBOT PATH - HORIZONTAL SWEEP (Boustrophedon)
-      // ================================================================
-      // Generate a precise horizontal sweeping path that covers the entire field
-      const pathPoints = [];
-      const numHorizontalPasses = 12; // number of horizontal rows
-      const passLatStep =
-        (gridBounds[1][0] - gridBounds[0][0]) / numHorizontalPasses;
-      const lngMin = gridBounds[0][1];
-      const lngMax = gridBounds[1][1];
-
-      for (let i = 0; i <= numHorizontalPasses; i++) {
-        const lat = gridBounds[0][0] + i * passLatStep;
-        if (i % 2 === 0) {
-          // Left to right
-          pathPoints.push([lat, lngMin]);
-          pathPoints.push([lat, lngMax]);
-        } else {
-          // Right to left
-          pathPoints.push([lat, lngMax]);
-          pathPoints.push([lat, lngMin]);
-        }
-      }
-
-      // Add a final point to close the pattern
-      pathPoints.push([gridBounds[0][0], lngMin]);
-
-      // ================================================================
-      // 7. ROBOT MARKER
-      // ================================================================
-      const robotIcon = L.divIcon({
-        className: "",
-        html: `<div style="font-size:34px;filter:drop-shadow(0 0 12px rgba(10,122,90,0.4));">🤖</div>`,
-        iconSize: [34, 34],
-        iconAnchor: [17, 17],
-      });
-
-      let robotPathIndex = 0;
-      const robotMarker = L.marker(pathPoints[0], {
-        icon: robotIcon,
-        zIndexOffset: 1000,
-      }).addTo(map);
-
-      robotMarker.bindPopup(`
-        <div style="text-align:center;min-width:160px;">
-          <div style="font-size:20px;margin-bottom:4px;color:#1a2a3a;">🤖 ربات سمپاش</div>
-          <div style="font-size:12px;color:#446688;">NPK 20-20-20 · ۲.۸ L/min</div>
-          <div style="font-size:12px;color:#446688;">سرعت: ۱.۲ m/s</div>
-        </div>
-      `);
-
-      // ================================================================
-      // 8. PATH LINES (Planned + Traveled)
-      // ================================================================
-      // Planned path (full path - dashed)
-      const plannedPathLine = L.polyline(pathPoints, {
-        color: "#88aacc",
-        weight: 2,
-        opacity: 0.5,
-        dashArray: "8, 8",
-        lineCap: "round",
-        lineJoin: "round",
-      }).addTo(map);
-
-      // Traveled path (partial - solid)
-      const traveledPathLine = L.polyline([], {
-        color: "#0a7a5a",
-        weight: 3.5,
-        opacity: 0.8,
-        lineCap: "round",
-        lineJoin: "round",
-      }).addTo(map);
-
-      // Path visibility state
-      let pathVisible = true;
-
-      // ================================================================
-      // 9. ROBOT ANIMATION (Horizontal Sweep)
-      // ================================================================
-      let traveledPoints = [pathPoints[0]];
-
-      function moveRobot() {
-        robotPathIndex = (robotPathIndex + 1) % pathPoints.length;
-        const pos = pathPoints[robotPathIndex];
-        robotMarker.setLatLng(pos);
-
-        // Update traveled path
-        traveledPoints.push(pos);
-        traveledPathLine.setLatLngs(traveledPoints);
-
-        // Update robot overlay
-        document.getElementById("robotCoord").textContent =
-          `N ${pos[0].toFixed(4)} E ${pos[1].toFixed(4)}`;
-        document.getElementById("robotSpeed").textContent =
-          (Math.random() * 0.5 + 1.0).toFixed(1) + " m/s";
-        document.getElementById("robotRate").textContent =
-          (Math.random() * 1.5 + 2).toFixed(1) + " L/min";
-        document.getElementById("robotFertilizer").textContent =
-          (Math.random() * 30 + 110).toFixed(0) + " L";
-
-        // Progress percentage
-        const progress = Math.round(
-          (robotPathIndex / (pathPoints.length - 1)) * 100,
-        );
-        document.getElementById("robotProgress").textContent = progress + "%";
-
-        // When robot reaches the end, restart
-        if (robotPathIndex === pathPoints.length - 1) {
-          setTimeout(() => {
-            robotPathIndex = 0;
-            traveledPoints = [pathPoints[0]];
-            traveledPathLine.setLatLngs(traveledPoints);
-            robotMarker.setLatLng(pathPoints[0]);
-            document.getElementById("robotProgress").textContent = "۰%";
-          }, 2000);
-        }
-      }
-
-      setInterval(moveRobot, 400);
-
-      // ================================================================
-      // 10. PATH TOGGLE BUTTON
-      // ================================================================
-      const pathToggleBtn = document.getElementById("pathToggleBtn");
-      const pathToggleDot = document.getElementById("pathToggleDot");
-      const pathToggleLabel = document.getElementById("pathToggleLabel");
-
-      pathToggleBtn.addEventListener("click", () => {
-        pathVisible = !pathVisible;
-        if (pathVisible) {
-          plannedPathLine.setStyle({ opacity: 0.5 });
-          traveledPathLine.setStyle({ opacity: 0.8 });
-          pathToggleDot.className = "toggle-dot";
-          pathToggleLabel.textContent = "نمایش مسیر";
-        } else {
-          plannedPathLine.setStyle({ opacity: 0 });
-          traveledPathLine.setStyle({ opacity: 0 });
-          pathToggleDot.className = "toggle-dot off";
-          pathToggleLabel.textContent = "مخفی کردن مسیر";
+        if (e.key === "Escape") {
+          closePlotModal();
+          closeFormModal();
         }
       });
 
       // ================================================================
-      // 11. HIGHLIGHT PLOT
+      // 5. FORM MODALS (Demo)
       // ================================================================
-      function highlightPlotOnMap(name) {
-        const idx = plotNames.indexOf(name);
-        if (idx === -1 || !plotRects[idx]) return;
-        map.setView(plotRects[idx].center, 18, { animate: true });
-        plotRects[idx].rect.openPopup();
+      const formModal = document.getElementById("formModal");
+      const formEmoji = document.getElementById("formEmoji");
+      const formTitle = document.getElementById("formTitle");
+      const formDesc = document.getElementById("formDesc");
+      const formContent = document.getElementById("formContent");
+
+      const formTemplates = {
+        newPlot: {
+          emoji: "➕",
+          title: "ایجاد قطعه جدید",
+          desc: "افزودن قطعه به زمین انتخابی",
+          html: `
+            <div class="f-group"><label class="f-label">نام قطعه</label><input class="f-input" placeholder="مثال: E1, F2, ..." /></div>
+            <div class="f-group"><label class="f-label">مساحت (هکتار)</label><input class="f-input" placeholder="مثال: ۲.۵" /></div>
+            <div class="f-group"><label class="f-label">نوع کشت</label><select class="f-select"><option>گندم</option><option>جو</option><option>ذرت</option><option>گوجه</option><option>سیب‌زمینی</option></select></div>
+            <div class="f-group"><label class="f-label">نوع آبیاری</label><select class="f-select"><option>قطره‌ای</option><option>بارانی</option><option>غرقابی</option><option>زیرسطحی</option></select></div>
+            <div class="f-btn-row"><button class="f-btn" onclick="showToast('✅','ثبت قطعه','قطعه جدید با موفقیت ثبت شد (نمایشی)')">ثبت قطعه</button><button class="f-btn f-btn-secondary" onclick="closeFormModal()">انصراف</button></div>
+          `,
+        },
+        connectSensor: {
+          emoji: "🔗",
+          title: "اتصال سنسور جدید",
+          desc: "اتصال سنسور به قطعه مورد نظر",
+          html: `
+            <div class="f-group"><label class="f-label">نوع سنسور</label><select class="f-select"><option>دمای هوا (SHT35)</option><option>رطوبت خاک (TEROS 12)</option><option>EC (GS3)</option><option>pH (EZO-pH)</option><option>NPK (RS-NPK)</option><option>CO₂ (MH-Z19B)</option></select></div>
+            <div class="f-group"><label class="f-label">قطعه هدف</label><select class="f-select"><option>A1</option><option>A2</option><option>B1</option><option>B2</option><option>C3</option></select></div>
+            <div class="f-group"><label class="f-label">پروتکل ارتباطی</label><select class="f-select"><option>LoRaWAN</option><option>WiFi</option><option>Zigbee</option><option>RS485</option></select></div>
+            <div class="f-group"><label class="f-label">شناسه سنسور (EUI)</label><input class="f-input" placeholder="مثال: 00-1A-2B-3C-4D-5E" /></div>
+            <div class="f-btn-row"><button class="f-btn" onclick="showToast('🔗','اتصال سنسور','سنسور با موفقیت به قطعه متصل شد (نمایشی)')">ثبت اتصال</button><button class="f-btn f-btn-secondary" onclick="closeFormModal()">انصراف</button></div>
+          `,
+        },
+        addDrone: {
+          emoji: "🛸",
+          title: "افزودن پهپاد",
+          desc: "ثبت پهپاد جدید در سامانه",
+          html: `
+            <div class="f-group"><label class="f-label">مدل پهپاد</label><select class="f-select"><option>DJI Mavic 3 Multispectral</option><option>DJI Agras T50</option><option>DJI Phantom 4 RTK</option></select></div>
+            <div class="f-group"><label class="f-label">سنسور نصب‌شده</label><select class="f-select"><option>MicaSense RedEdge-P</option><option>MicaSense Altum-PT</option><option>FLIR Vue Pro R</option></select></div>
+            <div class="f-group"><label class="f-label">محدوده پرواز</label><input class="f-input" placeholder="مثال: زمین ۱ - بلوک A" /></div>
+            <div class="f-btn-row"><button class="f-btn" onclick="showToast('🛸','ثبت پهپاد','پهپاد با موفقیت در سامانه ثبت شد (نمایشی)')">ثبت پهپاد</button><button class="f-btn f-btn-secondary" onclick="closeFormModal()">انصراف</button></div>
+          `,
+        },
+        irrigation: {
+          emoji: "💧",
+          title: "مدیریت آبیاری",
+          desc: "تنظیم و برنامه‌ریزی آبیاری هوشمند",
+          html: `
+            <div class="f-group"><label class="f-label">قطعه</label><select class="f-select"><option>A1</option><option>A2</option><option>B1</option><option>C3</option><option>D2</option></select></div>
+            <div class="f-group"><label class="f-label">روش آبیاری</label><select class="f-select"><option>هوشمند (بر اساس رطوبت خاک)</option><option>زمان‌بندی دستی</option><option>بر اساس پیش‌بینی بارندگی</option></select></div>
+            <div class="f-group"><label class="f-label">حد آستانه رطوبت</label><input class="f-input" placeholder="۳۰٪" /></div>
+            <div class="f-group"><label class="f-label">دبی هدف</label><input class="f-input" placeholder="۲۰ L/min" /></div>
+            <div class="f-btn-row"><button class="f-btn" onclick="showToast('💧','برنامه آبیاری','برنامه آبیاری با موفقیت اعمال شد (نمایشی)')">اعمال تنظیمات</button><button class="f-btn f-btn-secondary" onclick="closeFormModal()">انصراف</button></div>
+          `,
+        },
+        report: {
+          emoji: "📊",
+          title: "گزارش‌گیری",
+          desc: "دریافت گزارش از وضعیت مزرعه",
+          html: `
+            <div class="f-group"><label class="f-label">نوع گزارش</label><select class="f-select"><option>وضعیت سنسورها</option><option>تغییرات رطوبت خاک</option><option>عملکرد محصول</option><option>مصرف آب و برق</option><option>فعالیت ربات‌ها</option></select></div>
+            <div class="f-group"><label class="f-label">قطعه</label><select class="f-select"><option>همه قطعات</option><option>A1</option><option>A2</option><option>B1</option></select></div>
+            <div class="f-group"><label class="f-label">بازه زمانی</label><select class="f-select"><option>۲۴ ساعت گذشته</option><option>هفته گذشته</option><option>ماه گذشته</option><option>فصل جاری</option></select></div>
+            <div class="f-btn-row"><button class="f-btn" onclick="showToast('📊','گزارش','دریافت گزارش با موفقیت انجام شد (نمایشی)')">دریافت گزارش</button><button class="f-btn f-btn-secondary" onclick="closeFormModal()">انصراف</button></div>
+          `,
+        },
+        addFarm: {
+          emoji: "🌿",
+          title: "افزودن زمین جدید",
+          desc: "ثبت زمین کشاورزی جدید در سامانه",
+          html: `
+            <div class="f-group"><label class="f-label">نام زمین</label><input class="f-input" placeholder="مثال: زمین ۳ - دشت قزوین" /></div>
+            <div class="f-group"><label class="f-label">مختصات مرکز</label><input class="f-input" placeholder="lat: 35.760, lng: 51.390" /></div>
+            <div class="f-group"><label class="f-label">مساحت کل (هکتار)</label><input class="f-input" placeholder="مثال: ۱۲" /></div>
+            <div class="f-group"><label class="f-label">نوع خاک</label><select class="f-select"><option>لومی</option><option>شنی</option><option>رسی</option><option>هوموسی</option></select></div>
+            <div class="f-btn-row"><button class="f-btn" onclick="showToast('🌿','ثبت زمین','زمین جدید با موفقیت ثبت شد (نمایشی)')">ثبت زمین</button><button class="f-btn f-btn-secondary" onclick="closeFormModal()">انصراف</button></div>
+          `,
+        },
+      };
+
+      function showFormModal(type) {
+        const tpl = formTemplates[type];
+        if (!tpl) return;
+        formEmoji.textContent = tpl.emoji;
+        formTitle.textContent = tpl.title;
+        formDesc.textContent = tpl.desc + " · صرفاً برای نمایش";
+        formContent.innerHTML = tpl.html;
+        formModal.classList.add("open");
       }
+      function closeFormModal() {
+        formModal.classList.remove("open");
+      }
+      formModal.addEventListener("click", (e) => {
+        if (e.target === formModal) closeFormModal();
+      });
 
       // ================================================================
-      // 12. TOAST NOTIFICATIONS
+      // 6. TOAST
       // ================================================================
       function showToast(icon, title, msg) {
         const container = document.getElementById("toast-container");
@@ -1431,9 +1894,12 @@
           setTimeout(() => {
             if (toast.parentNode) toast.remove();
           }, 400);
-        }, 5000);
+        }, 4000);
       }
 
+      // ================================================================
+      // 7. NOTIFICATIONS
+      // ================================================================
       const notificationTemplates = [
         () => {
           const t = randomSensorValue(18, 38);
@@ -1459,31 +1925,10 @@
             msg: `غلظت CO₂ در گلخانه: ${co2} ppm — ${co2 > 600 ? "⚠️ تهویه توصیه می‌شود" : "✅ نرمال"}`,
           };
         },
-        () => {
-          const n = randomSensorValue(50, 200);
-          return {
-            icon: "🧬",
-            title: "NPK - نیتروژن",
-            msg: `میزان نیتروژن قطعه C1: ${n} ppm — ${n < 80 ? "⚠️ کمبود نیتروژن" : "✅ کافی"}`,
-          };
-        },
-        () => {
-          const ph = randomSensorValue(5.5, 8.0);
-          return {
-            icon: "⚗️",
-            title: "pH خاک",
-            msg: `pH خاک قطعه D2: ${ph} — ${ph < 6.0 || ph > 7.5 ? "⚠️ خارج از محدوده بهینه" : "✅ نرمال"}`,
-          };
-        },
         () => ({
           icon: "🤖",
           title: "ربات سمپاش",
-          msg: `ربات در حال حرکت در مسیر افقی · نرخ پاشش: ${(Math.random() * 1.5 + 2).toFixed(1)} L/min · پیشرفت: ${Math.round((robotPathIndex / (pathPoints.length - 1)) * 100)}%`,
-        }),
-        () => ({
-          icon: "☀️",
-          title: "شدت نور",
-          msg: `شدت نور در فضای باز: ${randomSensorValue(20000, 80000)} lux — ${Math.random() > 0.7 ? "⚠️ ابری" : "✅ مناسب برای فتوسنتز"}`,
+          msg: `ربات در حال حرکت در مسیر · نرخ پاشش: ${(Math.random() * 1.5 + 2).toFixed(1)} L/min`,
         }),
         () => ({
           icon: "🌧️",
@@ -1491,7 +1936,6 @@
           msg: `${randomSensorValue(0, 80)}% احتمال بارندگی در ۶ ساعت آینده`,
         }),
       ];
-
       let notifIndex = 0;
       function showScheduledNotification() {
         const tpl =
@@ -1500,11 +1944,11 @@
         const data = tpl();
         showToast(data.icon, data.title, data.msg);
       }
-      setTimeout(showScheduledNotification, 800);
-      setInterval(showScheduledNotification, 5000);
+      setTimeout(showScheduledNotification, 3000);
+      setInterval(showScheduledNotification, 15000);
 
       // ================================================================
-      // 13. UPDATE SENSOR VALUES
+      // 8. UPDATE SENSORS
       // ================================================================
       function updateSensorValues() {
         for (const p of plots) {
@@ -1526,18 +1970,15 @@
           s.waterUse.value = randomSensorValue(100, 2000) + " L";
           p.status = Math.random() > 0.75 ? "هشدار" : "نرمال";
         }
-        const active = document.querySelector(".plot-card.active");
-        const activeName = active ? active.dataset.plot : "A1";
-        renderPlots(activeName);
         if (modal.classList.contains("open")) {
-          const modalPlotName = modalTitle.textContent.replace("قطعه ", "");
-          if (modalPlotName) openPlotModal(modalPlotName);
+          const n = modalTitle.textContent.replace("قطعه ", "");
+          if (n) openPlotModal(n);
         }
       }
       setInterval(updateSensorValues, 8000);
 
       // ================================================================
-      // 14. CLOCK
+      // 9. CLOCK
       // ================================================================
       function updateClock() {
         const now = new Date();
@@ -1552,10 +1993,9 @@
       updateClock();
 
       // ================================================================
-      // 15. INIT
+      // 10. INIT
       // ================================================================
-      renderPlots("A1");
-      map.fitBounds(gridBounds, { padding: [30, 30] });
+      renderFarm("farm1");
     </script>
   </body>
 </html>
