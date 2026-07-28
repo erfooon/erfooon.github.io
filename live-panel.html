@@ -1,0 +1,1561 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پنل زنده مدیریت مزرعه هوشمند</title>
+    <!-- Leaflet CSS -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <!-- Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: "Vazirmatn", sans-serif;
+        background: linear-gradient(
+          135deg,
+          #f0f4ff 0%,
+          #dce6f2 50%,
+          #e8f0fe 100%
+        );
+        color: #1a2a3a;
+        min-height: 100vh;
+        overflow-x: hidden;
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.3);
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(0, 150, 120, 0.3);
+        border-radius: 3px;
+      }
+
+      #particles-canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .header {
+        position: relative;
+        z-index: 100;
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
+      }
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .header-left .logo {
+        font-size: 30px;
+      }
+      .header-left h1 {
+        font-size: 20px;
+        font-weight: 900;
+        background: linear-gradient(135deg, #0a7a5a, #1080c0);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      .header-left .sub {
+        font-size: 12px;
+        color: #5588aa;
+        font-weight: 400;
+      }
+      .header-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .header-right .live-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(0, 180, 120, 0.12);
+        border: 1px solid rgba(0, 180, 120, 0.25);
+        border-radius: 20px;
+        padding: 4px 14px;
+        font-size: 12px;
+        color: #0a7a5a;
+        font-weight: 600;
+      }
+      .header-right .live-badge .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #0a7a5a;
+        animation: pulseDot 1.5s ease-in-out infinite;
+      }
+      @keyframes pulseDot {
+        0%,
+        100% {
+          opacity: 1;
+          transform: scale(1);
+        }
+        50% {
+          opacity: 0.3;
+          transform: scale(0.7);
+        }
+      }
+      .header-right .clock {
+        font-size: 14px;
+        color: #446688;
+        font-weight: 600;
+        direction: ltr;
+      }
+
+      #toast-container {
+        position: fixed;
+        top: 80px;
+        left: 20px;
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        max-width: 340px;
+        width: 100%;
+        pointer-events: none;
+      }
+      .toast {
+        pointer-events: auto;
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 16px;
+        padding: 14px 18px;
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        animation: slideInLeft 0.4s ease-out;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+      }
+      .toast.removing {
+        animation: slideOutLeft 0.35s ease-in forwards;
+      }
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      @keyframes slideOutLeft {
+        from {
+          opacity: 1;
+          transform: translateX(0);
+        }
+        to {
+          opacity: 0;
+          transform: translateX(-50px);
+        }
+      }
+      .toast .t-icon {
+        font-size: 26px;
+        flex-shrink: 0;
+        margin-top: 2px;
+      }
+      .toast .t-body {
+        flex: 1;
+      }
+      .toast .t-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1a2a3a;
+        margin-bottom: 2px;
+      }
+      .toast .t-msg {
+        font-size: 12px;
+        color: #446688;
+        line-height: 1.5;
+      }
+      .toast .t-time {
+        font-size: 10px;
+        color: #88aacc;
+        margin-top: 4px;
+        direction: ltr;
+      }
+
+      .main-layout {
+        position: relative;
+        z-index: 1;
+        display: grid;
+        grid-template-columns: 1fr 380px;
+        gap: 16px;
+        padding: 16px;
+        height: calc(100vh - 74px);
+      }
+
+      .map-section {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        background: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+      }
+      #map {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+      }
+
+      .map-legend {
+        position: absolute;
+        bottom: 16px;
+        right: 16px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 14px;
+        padding: 12px 16px;
+        font-size: 12px;
+        color: #446688;
+        pointer-events: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+      }
+      .map-legend .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 4px;
+      }
+      .map-legend .row:last-child {
+        margin-bottom: 0;
+      }
+      .map-legend .color-box {
+        width: 14px;
+        height: 14px;
+        border-radius: 4px;
+        flex-shrink: 0;
+      }
+
+      /* ===== Robot Overlay ===== */
+      .robot-overlay {
+        position: absolute;
+        top: 16px;
+        left: 16px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 16px;
+        padding: 14px 18px;
+        min-width: 200px;
+        pointer-events: auto;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+      }
+      .robot-overlay .d-title {
+        font-size: 13px;
+        font-weight: 700;
+        color: #1a2a3a;
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .robot-overlay .d-row {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12px;
+        color: #446688;
+        margin-bottom: 4px;
+      }
+      .robot-overlay .d-row .val {
+        color: #0a7a5a;
+        font-weight: 700;
+      }
+      .robot-overlay .d-row .val.warn {
+        color: #d4880a;
+      }
+
+      /* ===== Path Toggle Button ===== */
+      .path-toggle-btn {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 14px;
+        padding: 10px 18px;
+        font-family: "Vazirmatn", sans-serif;
+        font-size: 13px;
+        font-weight: 600;
+        color: #0a7a5a;
+        cursor: pointer;
+        transition: all 0.3s;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .path-toggle-btn:hover {
+        background: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+      }
+      .path-toggle-btn .toggle-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: #0a7a5a;
+        display: inline-block;
+        transition: all 0.3s;
+      }
+      .path-toggle-btn .toggle-dot.off {
+        background: #88aacc;
+      }
+
+      /* ===== Plots Panel ===== */
+      .plots-panel {
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 20px;
+        padding: 16px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
+      }
+      .plots-panel .panel-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #1a2a3a;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+        flex-shrink: 0;
+      }
+      .plots-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        overflow-y: auto;
+        padding-left: 4px;
+      }
+
+      .plot-card {
+        background: rgba(255, 255, 255, 0.55);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 16px;
+        padding: 14px 16px;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
+      }
+      .plot-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #0a7a5a, #1080c0);
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .plot-card:hover {
+        border-color: rgba(10, 122, 90, 0.25);
+        transform: translateY(-2px);
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+      }
+      .plot-card:hover::before {
+        opacity: 1;
+      }
+      .plot-card.active {
+        border-color: rgba(10, 122, 90, 0.35);
+        background: rgba(255, 255, 255, 0.75);
+      }
+      .plot-card.active::before {
+        opacity: 1;
+      }
+
+      .plot-card .pc-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+      }
+      .plot-card .pc-header .pc-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a2a3a;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .plot-card .pc-header .pc-status {
+        font-size: 11px;
+        padding: 2px 10px;
+        border-radius: 10px;
+        background: rgba(10, 122, 90, 0.1);
+        color: #0a7a5a;
+        font-weight: 600;
+      }
+      .plot-card .pc-header .pc-status.warn {
+        background: rgba(212, 136, 10, 0.1);
+        color: #d4880a;
+      }
+      .plot-card .pc-header .pc-status.critical {
+        background: rgba(200, 50, 50, 0.1);
+        color: #c83232;
+      }
+
+      .sensor-grid-mini {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 4px;
+      }
+      .sensor-mini {
+        background: rgba(255, 255, 255, 0.5);
+        border-radius: 6px;
+        padding: 3px 4px;
+        text-align: center;
+        font-size: 10px;
+      }
+      .sensor-mini .sm-icon {
+        font-size: 12px;
+      }
+      .sensor-mini .sm-val {
+        font-weight: 700;
+        color: #1a2a3a;
+        font-size: 10px;
+      }
+
+      .plot-card .plot-img-preview {
+        margin-top: 8px;
+        border-radius: 10px;
+        overflow: hidden;
+        position: relative;
+        background: #eef2f8;
+        height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .plot-card .plot-img-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .plot-card .plot-img-preview .img-label {
+        position: absolute;
+        bottom: 4px;
+        right: 6px;
+        background: rgba(255, 255, 255, 0.8);
+        font-size: 9px;
+        padding: 2px 8px;
+        border-radius: 6px;
+        color: #446688;
+        font-weight: 500;
+      }
+
+      /* ===== Modal ===== */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 20000;
+        background: rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      .modal-overlay.open {
+        display: flex;
+      }
+      .modal-box {
+        background: rgba(255, 255, 255, 0.78);
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 24px;
+        max-width: 720px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        padding: 28px 30px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.08);
+        animation: modalIn 0.35s ease-out;
+        position: relative;
+      }
+      @keyframes modalIn {
+        from {
+          opacity: 0;
+          transform: scale(0.92) translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1) translateY(0);
+        }
+      }
+      .modal-box .modal-close {
+        position: absolute;
+        top: 14px;
+        left: 18px;
+        background: rgba(0, 0, 0, 0.04);
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-size: 20px;
+        cursor: pointer;
+        color: #446688;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-box .modal-close:hover {
+        background: rgba(200, 50, 50, 0.1);
+        color: #c83232;
+      }
+      .modal-box .m-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 18px;
+        padding-left: 40px;
+      }
+      .modal-box .m-header .m-emoji {
+        font-size: 40px;
+      }
+      .modal-box .m-header .m-title {
+        font-size: 22px;
+        font-weight: 900;
+        color: #1a2a3a;
+      }
+      .modal-box .m-header .m-sub {
+        font-size: 13px;
+        color: #5588aa;
+        margin-top: 2px;
+      }
+      .modal-box .m-header .m-badge {
+        margin-right: auto;
+        padding: 4px 16px;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 700;
+        background: rgba(10, 122, 90, 0.12);
+        color: #0a7a5a;
+      }
+      .modal-box .m-header .m-badge.warn {
+        background: rgba(212, 136, 10, 0.12);
+        color: #d4880a;
+      }
+      .modal-box .m-header .m-badge.critical {
+        background: rgba(200, 50, 50, 0.12);
+        color: #c83232;
+      }
+      .modal-box .m-image {
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 18px;
+        height: 200px;
+        background: #eef2f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+      }
+      .modal-box .m-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .modal-box .m-image .m-img-label {
+        position: absolute;
+        bottom: 8px;
+        right: 10px;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 4px 12px;
+        border-radius: 8px;
+        font-size: 11px;
+        color: #446688;
+        font-weight: 500;
+      }
+      .modal-box .m-sensor-title {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a2a3a;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .modal-box .m-sensor-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+      }
+      .modal-box .m-sensor-item {
+        background: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 14px;
+        padding: 12px 10px;
+        text-align: center;
+        transition: all 0.2s;
+      }
+      .modal-box .m-sensor-item:hover {
+        background: rgba(255, 255, 255, 0.7);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+      }
+      .modal-box .m-sensor-item .ms-icon {
+        font-size: 22px;
+        display: block;
+        margin-bottom: 4px;
+      }
+      .modal-box .m-sensor-item .ms-label {
+        font-size: 11px;
+        color: #5588aa;
+        display: block;
+        margin-bottom: 2px;
+        font-weight: 500;
+      }
+      .modal-box .m-sensor-item .ms-value {
+        font-size: 16px;
+        font-weight: 800;
+        color: #1a2a3a;
+      }
+      .modal-box .m-sensor-item .ms-value.green {
+        color: #0a7a5a;
+      }
+      .modal-box .m-sensor-item .ms-value.yellow {
+        color: #d4880a;
+      }
+      .modal-box .m-sensor-item .ms-value.red {
+        color: #c83232;
+      }
+
+      @media (max-width: 1024px) {
+        .main-layout {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+        .map-section {
+          height: 500px;
+        }
+        .plots-panel {
+          max-height: 500px;
+        }
+        .modal-box .m-sensor-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 600px) {
+        .header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .header-right {
+          width: 100%;
+          justify-content: space-between;
+        }
+        .map-section {
+          height: 350px;
+        }
+        #toast-container {
+          max-width: 280px;
+          left: 10px;
+          top: 130px;
+        }
+        .modal-box {
+          padding: 20px 16px;
+        }
+        .modal-box .m-sensor-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .modal-box .m-header {
+          flex-wrap: wrap;
+        }
+        .modal-box .m-header .m-badge {
+          margin-right: 0;
+        }
+      }
+
+      .leaflet-container {
+        background: #f0f4ff !important;
+        font-family: "Vazirmatn", sans-serif !important;
+      }
+      .leaflet-control-zoom a {
+        background: rgba(255, 255, 255, 0.8) !important;
+        color: #446688 !important;
+        border-color: rgba(255, 255, 255, 0.4) !important;
+        backdrop-filter: blur(8px) !important;
+      }
+      .leaflet-control-zoom a:hover {
+        background: rgba(255, 255, 255, 0.95) !important;
+      }
+      .leaflet-popup-content-wrapper {
+        background: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(16px) !important;
+        color: #1a2a3a !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        border-radius: 16px !important;
+        font-family: "Vazirmatn", sans-serif !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06) !important;
+      }
+      .leaflet-popup-tip {
+        background: rgba(255, 255, 255, 0.85) !important;
+        border: none !important;
+      }
+      .leaflet-popup-close-button {
+        color: #88aacc !important;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="particles-canvas"></canvas>
+
+    <header class="header">
+      <div class="header-left">
+        <span class="logo">🌾</span>
+        <div>
+          <h1>پنل زنده مدیریت مزرعه هوشمند</h1>
+          <span class="sub">Live Farm Management Dashboard</span>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="live-badge"><span class="dot"></span><span>Live</span></div>
+        <span class="clock" id="clockDisplay">--:--:--</span>
+      </div>
+    </header>
+
+    <div id="toast-container"></div>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="plotModal">
+      <div class="modal-box">
+        <button class="modal-close" id="modalCloseBtn">✕</button>
+        <div class="m-header">
+          <span class="m-emoji" id="modalEmoji">📦</span>
+          <div>
+            <div class="m-title" id="modalTitle">قطعه A1</div>
+            <div class="m-sub" id="modalSub">مشاهدات لحظه‌ای سنسورها</div>
+          </div>
+          <span class="m-badge" id="modalBadge">● نرمال</span>
+        </div>
+        <div class="m-image">
+          <img id="modalImage" src="" alt="تصویر قطعه" />
+          <span class="m-img-label" id="modalImgLabel">🕐 --</span>
+        </div>
+        <div class="m-sensor-title">📊 وضعیت سنسورها</div>
+        <div class="m-sensor-grid" id="modalSensorGrid"></div>
+      </div>
+    </div>
+
+    <div class="main-layout">
+      <div class="map-section">
+        <div id="map"></div>
+
+        <!-- Robot Overlay -->
+        <div class="robot-overlay">
+          <div class="d-title">🤖 ربات سمپاش هوشمند</div>
+          <div class="d-row">
+            <span>مختصات</span
+            ><span class="val" id="robotCoord">N 35°45' E 51°23'</span>
+          </div>
+          <div class="d-row">
+            <span>سرعت</span><span class="val" id="robotSpeed">۱.۲ m/s</span>
+          </div>
+          <div class="d-row">
+            <span>نرخ پاشش</span
+            ><span class="val warn" id="robotRate">۲.۸ L/min</span>
+          </div>
+          <div class="d-row">
+            <span>مصرف کود</span
+            ><span class="val" id="robotFertilizer">۱۲۵ L</span>
+          </div>
+          <div class="d-row">
+            <span>نوع کود</span><span class="val">NPK 20-20-20</span>
+          </div>
+          <div class="d-row">
+            <span>پیشرفت مسیر</span
+            ><span class="val" id="robotProgress">۰%</span>
+          </div>
+        </div>
+
+        <!-- Path Toggle Button -->
+        <button class="path-toggle-btn" id="pathToggleBtn">
+          <span class="toggle-dot" id="pathToggleDot"></span>
+          <span id="pathToggleLabel">نمایش مسیر</span>
+        </button>
+
+        <div class="map-legend">
+          <div class="row">
+            <span
+              class="color-box"
+              style="background: #0a7a5a; opacity: 0.5"
+            ></span
+            ><span>رطوبت نرمال</span>
+          </div>
+          <div class="row">
+            <span
+              class="color-box"
+              style="background: #d4880a; opacity: 0.5"
+            ></span
+            ><span>نیاز به آبیاری</span>
+          </div>
+          <div class="row">
+            <span
+              class="color-box"
+              style="background: #c83232; opacity: 0.5"
+            ></span
+            ><span>تنش رطوبتی</span>
+          </div>
+          <div class="row">
+            <span style="color: #0a7a5a; font-size: 16px">🤖</span
+            ><span>ربات فعال</span>
+          </div>
+          <div class="row">
+            <span style="color: #0a7a5a; font-size: 12px">━━</span
+            ><span>مسیر رفته</span>
+          </div>
+          <div class="row">
+            <span style="color: #88aacc; font-size: 12px">- - -</span
+            ><span>مسیر برنامه‌ریزی‌شده</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="plots-panel" id="plotsPanel">
+        <div class="panel-title">📋 قطعات زمین (Plots)</div>
+        <div class="plots-list" id="plotsList"></div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+      // ================================================================
+      // 0. PARTICLES
+      // ================================================================
+      (function () {
+        const canvas = document.getElementById("particles-canvas");
+        const ctx = canvas.getContext("2d");
+        let particles = [];
+        const COUNT = 60;
+        function resize() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resize);
+        resize();
+        class Particle {
+          constructor() {
+            this.reset();
+          }
+          reset() {
+            this.x = Math.random() * canvas.width;
+            this.y = Math.random() * canvas.height;
+            this.size = Math.random() * 2 + 0.5;
+            this.speedX = (Math.random() - 0.5) * 0.3;
+            this.speedY = (Math.random() - 0.5) * 0.3;
+            this.opacity = Math.random() * 0.3 + 0.05;
+          }
+          update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (
+              this.x < 0 ||
+              this.x > canvas.width ||
+              this.y < 0 ||
+              this.y > canvas.height
+            )
+              this.reset();
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(10, 122, 90, ${this.opacity})`;
+            ctx.fill();
+          }
+        }
+        for (let i = 0; i < COUNT; i++) particles.push(new Particle());
+        function animate() {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          for (const p of particles) {
+            p.update();
+            p.draw();
+          }
+          for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+              const dx = particles[i].x - particles[j].x;
+              const dy = particles[i].y - particles[j].y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < 150) {
+                const alpha = (1 - dist / 150) * 0.06;
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = `rgba(10, 122, 90, ${alpha})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+              }
+            }
+          }
+          requestAnimationFrame(animate);
+        }
+        animate();
+      })();
+
+      // ================================================================
+      // 1. DATA
+      // ================================================================
+      const plotNames = [
+        "A1",
+        "A2",
+        "A3",
+        "B1",
+        "B2",
+        "B3",
+        "C1",
+        "C2",
+        "C3",
+        "D1",
+        "D2",
+        "D3",
+      ];
+
+      const sampleImages = [
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23d4e8d4'/%3E%3Ccircle cx='120' cy='100' r='30' fill='%234a9a4a' opacity='0.4'/%3E%3Ccircle cx='260' cy='80' r='25' fill='%235aaa5a' opacity='0.3'/%3E%3Ccircle cx='200' cy='140' r='20' fill='%233a8a3a' opacity='0.3'/%3E%3Ctext x='30' y='30' fill='%23448866' font-size='14' font-family='sans-serif'%3E2026-07-28 10:32%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23d8dcc4'/%3E%3Ccircle cx='180' cy='90' r='35' fill='%234a8a3a' opacity='0.4'/%3E%3Ccircle cx='300' cy='120' r='20' fill='%233a7a3a' opacity='0.3'/%3E%3Ctext x='30' y='30' fill='%23448866' font-size='14' font-family='sans-serif'%3E2026-07-28 09:45%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23c8ddd0'/%3E%3Ccircle cx='100' cy='110' r='28' fill='%233a7a6a' opacity='0.4'/%3E%3Ccircle cx='250' cy='70' r='22' fill='%234a8a5a' opacity='0.3'/%3E%3Ctext x='30' y='30' fill='%23448866' font-size='14' font-family='sans-serif'%3E2026-07-28 11:10%3C/text%3E%3C/svg%3E",
+        "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='200' viewBox='0 0 400 200'%3E%3Crect width='400' height='200' fill='%23d4d4c8'/%3E%3Ccircle cx='140' cy='80' r='32' fill='%234a8a4a' opacity='0.4'/%3E%3Ccircle cx='280' cy='130' r='18' fill='%233a7a4a' opacity='0.3'/%3E%3Ctext x='30' y='30' fill='%23448866' font-size='14' font-family='sans-serif'%3E2026-07-28 08:20%3C/text%3E%3C/svg%3E",
+      ];
+
+      function randomSensorValue(min, max, decimals) {
+        if (decimals === undefined) decimals = 1;
+        return (Math.random() * (max - min) + min).toFixed(decimals);
+      }
+
+      function generatePlotData(name) {
+        return {
+          name,
+          status: ["نرمال", "هشدار", "نرمال", "نرمال", "هشدار", "نرمال"][
+            Math.floor(Math.random() * 6)
+          ],
+          sensors: {
+            temp: {
+              label: "دمای هوا",
+              icon: "🌡️",
+              value: randomSensorValue(18, 38) + "°C",
+              status: "green",
+            },
+            humidity: {
+              label: "رطوبت هوا",
+              icon: "💧",
+              value: randomSensorValue(30, 85) + "%",
+              status: "green",
+            },
+            soilMoisture: {
+              label: "رطوبت خاک",
+              icon: "🌱",
+              value: randomSensorValue(15, 70) + "%",
+              status: Math.random() > 0.6 ? "yellow" : "green",
+            },
+            ec: {
+              label: "EC",
+              icon: "🧪",
+              value: randomSensorValue(0.5, 3.5) + " dS/m",
+              status: "green",
+            },
+            ph: {
+              label: "pH",
+              icon: "⚗️",
+              value: randomSensorValue(5.5, 8.0),
+              status: "green",
+            },
+            npk: {
+              label: "NPK",
+              icon: "🧬",
+              value: randomSensorValue(50, 200) + " ppm",
+              status: "green",
+            },
+            co2: {
+              label: "CO₂",
+              icon: "💨",
+              value: randomSensorValue(350, 800) + " ppm",
+              status: "green",
+            },
+            light: {
+              label: "شدت نور",
+              icon: "☀️",
+              value: randomSensorValue(5000, 80000) + " lux",
+              status: "green",
+            },
+            uv: {
+              label: "UV",
+              icon: "🕶️",
+              value: randomSensorValue(1, 11) + " index",
+              status: Math.random() > 0.7 ? "yellow" : "green",
+            },
+            windSpeed: {
+              label: "سرعت باد",
+              icon: "🌬️",
+              value: randomSensorValue(0, 12) + " m/s",
+              status: "green",
+            },
+            windDir: {
+              label: "جهت باد",
+              icon: "🧭",
+              value: ["N", "NE", "E", "SE", "S", "SW", "W", "NW"][
+                Math.floor(Math.random() * 8)
+              ],
+              status: "green",
+            },
+            rain: {
+              label: "بارندگی",
+              icon: "🌧️",
+              value: randomSensorValue(0, 25) + " mm",
+              status: "green",
+            },
+            waterLevel: {
+              label: "سطح آب",
+              icon: "📏",
+              value: randomSensorValue(0.5, 3.0) + " m",
+              status: "green",
+            },
+            flow: {
+              label: "دبی آب",
+              icon: "🚰",
+              value: randomSensorValue(5, 60) + " L/s",
+              status: "green",
+            },
+            power: {
+              label: "مصرف برق",
+              icon: "⚡",
+              value: randomSensorValue(0.2, 4.5) + " kW",
+              status: Math.random() > 0.8 ? "red" : "green",
+            },
+            waterUse: {
+              label: "مصرف آب",
+              icon: "🚿",
+              value: randomSensorValue(100, 2000) + " L",
+              status: "green",
+            },
+          },
+          image: sampleImages[Math.floor(Math.random() * sampleImages.length)],
+          imgTime: new Date().toLocaleString("fa-IR"),
+        };
+      }
+
+      let plots = plotNames.map((n) => generatePlotData(n));
+
+      // ================================================================
+      // 2. RENDER PLOTS
+      // ================================================================
+      function renderPlots(activeName) {
+        const list = document.getElementById("plotsList");
+        list.innerHTML = "";
+        for (const p of plots) {
+          const card = document.createElement("div");
+          card.className =
+            "plot-card" + (p.name === activeName ? " active" : "");
+          card.dataset.plot = p.name;
+          const keys = Object.keys(p.sensors);
+          let miniHtml = "";
+          for (let i = 0; i < 4 && i < keys.length; i++) {
+            const s = p.sensors[keys[i]];
+            miniHtml += `<div class="sensor-mini"><span class="sm-icon">${s.icon}</span> <span class="sm-val">${s.value}</span></div>`;
+          }
+          const statusClass =
+            p.status === "هشدار"
+              ? "warn"
+              : p.status === "نرمال"
+                ? ""
+                : "critical";
+          card.innerHTML = `
+            <div class="pc-header">
+              <div class="pc-name">📦 قطعه ${p.name}</div>
+              <span class="pc-status ${statusClass}">● ${p.status}</span>
+            </div>
+            <div class="sensor-grid-mini">${miniHtml}</div>
+            <div class="plot-img-preview">
+              <img src="${p.image}" alt="تصویر ${p.name}" />
+              <span class="img-label">🕐 ${p.imgTime}</span>
+            </div>
+          `;
+          card.addEventListener("click", () => {
+            renderPlots(p.name);
+            highlightPlotOnMap(p.name);
+            openPlotModal(p.name);
+          });
+          list.appendChild(card);
+        }
+      }
+
+      // ================================================================
+      // 3. MODAL
+      // ================================================================
+      const modal = document.getElementById("plotModal");
+      const modalClose = document.getElementById("modalCloseBtn");
+      const modalTitle = document.getElementById("modalTitle");
+      const modalSub = document.getElementById("modalSub");
+      const modalEmoji = document.getElementById("modalEmoji");
+      const modalBadge = document.getElementById("modalBadge");
+      const modalImage = document.getElementById("modalImage");
+      const modalImgLabel = document.getElementById("modalImgLabel");
+      const modalSensorGrid = document.getElementById("modalSensorGrid");
+
+      function openPlotModal(name) {
+        const p = plots.find((x) => x.name === name);
+        if (!p) return;
+        modalTitle.textContent = `قطعه ${p.name}`;
+        modalSub.textContent = `مشاهدات لحظه‌ای سنسورها · ${p.imgTime}`;
+        modalEmoji.textContent = "📦";
+        const badgeClass =
+          p.status === "هشدار"
+            ? "warn"
+            : p.status === "نرمال"
+              ? ""
+              : "critical";
+        modalBadge.className = "m-badge" + (badgeClass ? " " + badgeClass : "");
+        modalBadge.textContent = `● ${p.status}`;
+        modalImage.src = p.image;
+        modalImgLabel.textContent = `🕐 ${p.imgTime}`;
+        modalSensorGrid.innerHTML = "";
+        const keys = Object.keys(p.sensors);
+        for (const k of keys) {
+          const s = p.sensors[k];
+          const item = document.createElement("div");
+          item.className = "m-sensor-item";
+          item.innerHTML = `<span class="ms-icon">${s.icon}</span><span class="ms-label">${s.label}</span><span class="ms-value ${s.status}">${s.value}</span>`;
+          modalSensorGrid.appendChild(item);
+        }
+        modal.classList.add("open");
+      }
+      function closePlotModal() {
+        modal.classList.remove("open");
+      }
+      modalClose.addEventListener("click", closePlotModal);
+      modal.addEventListener("click", (e) => {
+        if (e.target === modal) closePlotModal();
+      });
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closePlotModal();
+      });
+
+      // ================================================================
+      // 4. MAP
+      // ================================================================
+      const map = L.map("map", {
+        center: [35.756, 51.388],
+        zoom: 17,
+        zoomControl: true,
+        attributionControl: false,
+      });
+      L.tileLayer(
+        "https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png",
+        { maxZoom: 20 },
+      ).addTo(map);
+
+      // ================================================================
+      // 5. FIELD GRID
+      // ================================================================
+      const gridBounds = [
+        [35.752, 51.382],
+        [35.76, 51.394],
+      ];
+      const rows = 3,
+        cols = 4;
+      const lngStep = (gridBounds[1][1] - gridBounds[0][1]) / cols;
+      const latStep = (gridBounds[1][0] - gridBounds[0][0]) / rows;
+      const plotRects = [];
+
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const idx = r * cols + c;
+          const name = plotNames[idx] || `P${idx + 1}`;
+          const south = gridBounds[0][0] + r * latStep;
+          const north = south + latStep;
+          const west = gridBounds[0][1] + c * lngStep;
+          const east = west + lngStep;
+          const center = [(south + north) / 2, (west + east) / 2];
+          const moisture = Math.random();
+          let fillColor = "#0a7a5a",
+            opacity = 0.15;
+          if (moisture < 0.3) {
+            fillColor = "#c83232";
+            opacity = 0.15;
+          } else if (moisture < 0.5) {
+            fillColor = "#d4880a";
+            opacity = 0.15;
+          }
+          const rect = L.rectangle(
+            [
+              [south, west],
+              [north, east],
+            ],
+            {
+              color: "rgba(10,122,90,0.15)",
+              weight: 1.5,
+              fillColor,
+              fillOpacity: opacity,
+            },
+          ).addTo(map);
+          rect.bindPopup(`
+            <div style="text-align:center;min-width:140px;">
+              <div style="font-size:18px;font-weight:700;margin-bottom:4px;color:#1a2a3a;">📦 قطعه ${name}</div>
+              <div style="font-size:12px;color:#446688;">وضعیت: ${plots[idx]?.status || "نرمال"}</div>
+              <div style="font-size:12px;color:#446688;">رطوبت خاک: ${plots[idx]?.sensors?.soilMoisture?.value || "--"}</div>
+              <div style="margin-top:8px;">
+                <button onclick="document.querySelector('[data-plot="${name}"]')?.click()" style="background:rgba(10,122,90,0.12);border:1px solid rgba(10,122,90,0.2);border-radius:10px;padding:6px 16px;cursor:pointer;font-family:Vazirmatn,sans-serif;font-size:12px;color:#0a7a5a;font-weight:600;">مشاهده جزئیات</button>
+              </div>
+            </div>
+          `);
+          rect.on("click", () => {
+            renderPlots(name);
+            openPlotModal(name);
+          });
+          plotRects.push({ name, rect, center });
+        }
+      }
+
+      // ================================================================
+      // 6. ROBOT PATH - HORIZONTAL SWEEP (Boustrophedon)
+      // ================================================================
+      // Generate a precise horizontal sweeping path that covers the entire field
+      const pathPoints = [];
+      const numHorizontalPasses = 12; // number of horizontal rows
+      const passLatStep =
+        (gridBounds[1][0] - gridBounds[0][0]) / numHorizontalPasses;
+      const lngMin = gridBounds[0][1];
+      const lngMax = gridBounds[1][1];
+
+      for (let i = 0; i <= numHorizontalPasses; i++) {
+        const lat = gridBounds[0][0] + i * passLatStep;
+        if (i % 2 === 0) {
+          // Left to right
+          pathPoints.push([lat, lngMin]);
+          pathPoints.push([lat, lngMax]);
+        } else {
+          // Right to left
+          pathPoints.push([lat, lngMax]);
+          pathPoints.push([lat, lngMin]);
+        }
+      }
+
+      // Add a final point to close the pattern
+      pathPoints.push([gridBounds[0][0], lngMin]);
+
+      // ================================================================
+      // 7. ROBOT MARKER
+      // ================================================================
+      const robotIcon = L.divIcon({
+        className: "",
+        html: `<div style="font-size:34px;filter:drop-shadow(0 0 12px rgba(10,122,90,0.4));">🤖</div>`,
+        iconSize: [34, 34],
+        iconAnchor: [17, 17],
+      });
+
+      let robotPathIndex = 0;
+      const robotMarker = L.marker(pathPoints[0], {
+        icon: robotIcon,
+        zIndexOffset: 1000,
+      }).addTo(map);
+
+      robotMarker.bindPopup(`
+        <div style="text-align:center;min-width:160px;">
+          <div style="font-size:20px;margin-bottom:4px;color:#1a2a3a;">🤖 ربات سمپاش</div>
+          <div style="font-size:12px;color:#446688;">NPK 20-20-20 · ۲.۸ L/min</div>
+          <div style="font-size:12px;color:#446688;">سرعت: ۱.۲ m/s</div>
+        </div>
+      `);
+
+      // ================================================================
+      // 8. PATH LINES (Planned + Traveled)
+      // ================================================================
+      // Planned path (full path - dashed)
+      const plannedPathLine = L.polyline(pathPoints, {
+        color: "#88aacc",
+        weight: 2,
+        opacity: 0.5,
+        dashArray: "8, 8",
+        lineCap: "round",
+        lineJoin: "round",
+      }).addTo(map);
+
+      // Traveled path (partial - solid)
+      const traveledPathLine = L.polyline([], {
+        color: "#0a7a5a",
+        weight: 3.5,
+        opacity: 0.8,
+        lineCap: "round",
+        lineJoin: "round",
+      }).addTo(map);
+
+      // Path visibility state
+      let pathVisible = true;
+
+      // ================================================================
+      // 9. ROBOT ANIMATION (Horizontal Sweep)
+      // ================================================================
+      let traveledPoints = [pathPoints[0]];
+
+      function moveRobot() {
+        robotPathIndex = (robotPathIndex + 1) % pathPoints.length;
+        const pos = pathPoints[robotPathIndex];
+        robotMarker.setLatLng(pos);
+
+        // Update traveled path
+        traveledPoints.push(pos);
+        traveledPathLine.setLatLngs(traveledPoints);
+
+        // Update robot overlay
+        document.getElementById("robotCoord").textContent =
+          `N ${pos[0].toFixed(4)} E ${pos[1].toFixed(4)}`;
+        document.getElementById("robotSpeed").textContent =
+          (Math.random() * 0.5 + 1.0).toFixed(1) + " m/s";
+        document.getElementById("robotRate").textContent =
+          (Math.random() * 1.5 + 2).toFixed(1) + " L/min";
+        document.getElementById("robotFertilizer").textContent =
+          (Math.random() * 30 + 110).toFixed(0) + " L";
+
+        // Progress percentage
+        const progress = Math.round(
+          (robotPathIndex / (pathPoints.length - 1)) * 100,
+        );
+        document.getElementById("robotProgress").textContent = progress + "%";
+
+        // When robot reaches the end, restart
+        if (robotPathIndex === pathPoints.length - 1) {
+          setTimeout(() => {
+            robotPathIndex = 0;
+            traveledPoints = [pathPoints[0]];
+            traveledPathLine.setLatLngs(traveledPoints);
+            robotMarker.setLatLng(pathPoints[0]);
+            document.getElementById("robotProgress").textContent = "۰%";
+          }, 2000);
+        }
+      }
+
+      setInterval(moveRobot, 400);
+
+      // ================================================================
+      // 10. PATH TOGGLE BUTTON
+      // ================================================================
+      const pathToggleBtn = document.getElementById("pathToggleBtn");
+      const pathToggleDot = document.getElementById("pathToggleDot");
+      const pathToggleLabel = document.getElementById("pathToggleLabel");
+
+      pathToggleBtn.addEventListener("click", () => {
+        pathVisible = !pathVisible;
+        if (pathVisible) {
+          plannedPathLine.setStyle({ opacity: 0.5 });
+          traveledPathLine.setStyle({ opacity: 0.8 });
+          pathToggleDot.className = "toggle-dot";
+          pathToggleLabel.textContent = "نمایش مسیر";
+        } else {
+          plannedPathLine.setStyle({ opacity: 0 });
+          traveledPathLine.setStyle({ opacity: 0 });
+          pathToggleDot.className = "toggle-dot off";
+          pathToggleLabel.textContent = "مخفی کردن مسیر";
+        }
+      });
+
+      // ================================================================
+      // 11. HIGHLIGHT PLOT
+      // ================================================================
+      function highlightPlotOnMap(name) {
+        const idx = plotNames.indexOf(name);
+        if (idx === -1 || !plotRects[idx]) return;
+        map.setView(plotRects[idx].center, 18, { animate: true });
+        plotRects[idx].rect.openPopup();
+      }
+
+      // ================================================================
+      // 12. TOAST NOTIFICATIONS
+      // ================================================================
+      function showToast(icon, title, msg) {
+        const container = document.getElementById("toast-container");
+        const toast = document.createElement("div");
+        toast.className = "toast";
+        const now = new Date();
+        const timeStr = now.toLocaleTimeString("fa-IR");
+        toast.innerHTML = `<span class="t-icon">${icon}</span><div class="t-body"><div class="t-title">${title}</div><div class="t-msg">${msg}</div><div class="t-time">${timeStr}</div></div>`;
+        container.appendChild(toast);
+        setTimeout(() => {
+          toast.classList.add("removing");
+          setTimeout(() => {
+            if (toast.parentNode) toast.remove();
+          }, 400);
+        }, 5000);
+      }
+
+      const notificationTemplates = [
+        () => {
+          const t = randomSensorValue(18, 38);
+          return {
+            icon: "🌡️",
+            title: "به‌روزرسانی دما",
+            msg: `دمای هوا در قطعه A2: ${t}°C — ${t > 32 ? "⚠️ بالای حد نرمال" : "✅ در محدوده مجاز"}`,
+          };
+        },
+        () => {
+          const h = randomSensorValue(30, 85);
+          return {
+            icon: "💧",
+            title: "رطوبت خاک",
+            msg: `رطوبت خاک قطعه B3: ${h}% — ${h < 35 ? "🚨 نیاز به آبیاری فوری" : "✅ نرمال"}`,
+          };
+        },
+        () => {
+          const co2 = randomSensorValue(350, 800);
+          return {
+            icon: "💨",
+            title: "کیفیت هوا (CO₂)",
+            msg: `غلظت CO₂ در گلخانه: ${co2} ppm — ${co2 > 600 ? "⚠️ تهویه توصیه می‌شود" : "✅ نرمال"}`,
+          };
+        },
+        () => {
+          const n = randomSensorValue(50, 200);
+          return {
+            icon: "🧬",
+            title: "NPK - نیتروژن",
+            msg: `میزان نیتروژن قطعه C1: ${n} ppm — ${n < 80 ? "⚠️ کمبود نیتروژن" : "✅ کافی"}`,
+          };
+        },
+        () => {
+          const ph = randomSensorValue(5.5, 8.0);
+          return {
+            icon: "⚗️",
+            title: "pH خاک",
+            msg: `pH خاک قطعه D2: ${ph} — ${ph < 6.0 || ph > 7.5 ? "⚠️ خارج از محدوده بهینه" : "✅ نرمال"}`,
+          };
+        },
+        () => ({
+          icon: "🤖",
+          title: "ربات سمپاش",
+          msg: `ربات در حال حرکت در مسیر افقی · نرخ پاشش: ${(Math.random() * 1.5 + 2).toFixed(1)} L/min · پیشرفت: ${Math.round((robotPathIndex / (pathPoints.length - 1)) * 100)}%`,
+        }),
+        () => ({
+          icon: "☀️",
+          title: "شدت نور",
+          msg: `شدت نور در فضای باز: ${randomSensorValue(20000, 80000)} lux — ${Math.random() > 0.7 ? "⚠️ ابری" : "✅ مناسب برای فتوسنتز"}`,
+        }),
+        () => ({
+          icon: "🌧️",
+          title: "پیش‌بینی بارندگی",
+          msg: `${randomSensorValue(0, 80)}% احتمال بارندگی در ۶ ساعت آینده`,
+        }),
+      ];
+
+      let notifIndex = 0;
+      function showScheduledNotification() {
+        const tpl =
+          notificationTemplates[notifIndex % notificationTemplates.length];
+        notifIndex++;
+        const data = tpl();
+        showToast(data.icon, data.title, data.msg);
+      }
+      setTimeout(showScheduledNotification, 800);
+      setInterval(showScheduledNotification, 5000);
+
+      // ================================================================
+      // 13. UPDATE SENSOR VALUES
+      // ================================================================
+      function updateSensorValues() {
+        for (const p of plots) {
+          const s = p.sensors;
+          s.temp.value = randomSensorValue(18, 38) + "°C";
+          s.humidity.value = randomSensorValue(30, 85) + "%";
+          s.soilMoisture.value = randomSensorValue(15, 70) + "%";
+          s.ec.value = randomSensorValue(0.5, 3.5) + " dS/m";
+          s.ph.value = randomSensorValue(5.5, 8.0);
+          s.npk.value = randomSensorValue(50, 200) + " ppm";
+          s.co2.value = randomSensorValue(350, 800) + " ppm";
+          s.light.value = randomSensorValue(5000, 80000) + " lux";
+          s.uv.value = randomSensorValue(1, 11) + " index";
+          s.windSpeed.value = randomSensorValue(0, 12) + " m/s";
+          s.rain.value = randomSensorValue(0, 25) + " mm";
+          s.waterLevel.value = randomSensorValue(0.5, 3.0) + " m";
+          s.flow.value = randomSensorValue(5, 60) + " L/s";
+          s.power.value = randomSensorValue(0.2, 4.5) + " kW";
+          s.waterUse.value = randomSensorValue(100, 2000) + " L";
+          p.status = Math.random() > 0.75 ? "هشدار" : "نرمال";
+        }
+        const active = document.querySelector(".plot-card.active");
+        const activeName = active ? active.dataset.plot : "A1";
+        renderPlots(activeName);
+        if (modal.classList.contains("open")) {
+          const modalPlotName = modalTitle.textContent.replace("قطعه ", "");
+          if (modalPlotName) openPlotModal(modalPlotName);
+        }
+      }
+      setInterval(updateSensorValues, 8000);
+
+      // ================================================================
+      // 14. CLOCK
+      // ================================================================
+      function updateClock() {
+        const now = new Date();
+        document.getElementById("clockDisplay").textContent =
+          now.toLocaleTimeString("fa-IR", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+          });
+      }
+      setInterval(updateClock, 1000);
+      updateClock();
+
+      // ================================================================
+      // 15. INIT
+      // ================================================================
+      renderPlots("A1");
+      map.fitBounds(gridBounds, { padding: [30, 30] });
+    </script>
+  </body>
+</html>
