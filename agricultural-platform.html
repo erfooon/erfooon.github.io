@@ -3,9 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>سامانه مدیریت هوشمند کشاورزی</title>
+    <title>سامانه مدیریت هوشمند کشاورزی | Precision Agriculture Platform</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;700;900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;900&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -14,31 +14,30 @@
         padding: 0;
         box-sizing: border-box;
       }
-
       body {
         font-family: "Vazirmatn", sans-serif;
-        background: #0a0e1a;
-        color: #e0e8f0;
+        background: linear-gradient(
+          135deg,
+          #f0f4ff 0%,
+          #dce6f2 50%,
+          #e8f0fe 100%
+        );
+        color: #1a2a3a;
         min-height: 100vh;
         overflow-x: hidden;
       }
 
-      /* Scrollbar */
       ::-webkit-scrollbar {
-        width: 8px;
+        width: 6px;
       }
       ::-webkit-scrollbar-track {
-        background: #141b2d;
+        background: rgba(255, 255, 255, 0.3);
       }
       ::-webkit-scrollbar-thumb {
-        background: #2a3a5c;
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #3a4f7a;
+        background: rgba(0, 150, 120, 0.3);
+        border-radius: 3px;
       }
 
-      /* ===== Particles ===== */
       #particles-canvas {
         position: fixed;
         top: 0;
@@ -49,59 +48,37 @@
         z-index: 0;
       }
 
-      /* ===== Header ===== */
       .header {
         position: relative;
-        z-index: 1;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.65);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.5);
         text-align: center;
-        padding: 50px 20px 30px;
-        background: linear-gradient(
-          135deg,
-          #0d1528 0%,
-          #1a2744 50%,
-          #0d1528 100%
-        );
-        border-bottom: 1px solid rgba(0, 200, 150, 0.15);
-      }
-      .header::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 2px;
-        background: linear-gradient(
-          90deg,
-          transparent,
-          #00c896,
-          #00d4ff,
-          #00c896,
-          transparent
-        );
+        padding: 40px 20px 30px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.04);
       }
       .header-icon {
         font-size: 50px;
         display: block;
-        margin-bottom: 12px;
-        filter: drop-shadow(0 0 20px rgba(0, 200, 150, 0.4));
+        margin-bottom: 10px;
       }
       .header h1 {
-        font-size: 32px;
+        font-size: 30px;
         font-weight: 900;
-        background: linear-gradient(135deg, #00c896, #00d4ff);
+        background: linear-gradient(135deg, #0a7a5a, #1080c0);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
-        letter-spacing: 1px;
       }
       .header p {
-        color: #8899bb;
-        font-size: 15px;
-        margin-top: 8px;
-        font-weight: 300;
+        color: #5588aa;
+        font-size: 14px;
+        margin-top: 6px;
+        font-weight: 400;
       }
 
-      /* ===== Container ===== */
       .container {
         position: relative;
         z-index: 1;
@@ -110,12 +87,11 @@
         padding: 30px 20px 60px;
       }
 
-      /* ===== Section Title ===== */
       .section-title {
         display: flex;
         align-items: center;
         gap: 14px;
-        margin: 40px 0 24px;
+        margin: 40px 0 22px;
       }
       .section-title:first-child {
         margin-top: 0;
@@ -124,229 +100,192 @@
         font-size: 28px;
       }
       .section-title h2 {
-        font-size: 22px;
+        font-size: 20px;
         font-weight: 700;
-        color: #f0f4ff;
+        color: #1a2a3a;
       }
       .section-title .line {
         flex: 1;
         height: 1.5px;
-        background: linear-gradient(90deg, rgba(0, 200, 150, 0.4), transparent);
+        background: linear-gradient(90deg, rgba(10, 122, 90, 0.3), transparent);
       }
 
-      /* ===== Cards Grid ===== */
-      .cards-grid {
-        display: grid;
-        gap: 16px;
-      }
-      .cards-grid.cols-2 {
-        grid-template-columns: repeat(2, 1fr);
-      }
-      .cards-grid.cols-3 {
-        grid-template-columns: repeat(3, 1fr);
-      }
-      .cards-grid.cols-4 {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      .cards-grid.cols-5 {
-        grid-template-columns: repeat(5, 1fr);
-      }
-      .cards-grid.cols-6 {
-        grid-template-columns: repeat(6, 1fr);
-      }
-
-      /* ===== Category Card ===== */
-      .category-card {
-        background: linear-gradient(
-          145deg,
-          rgba(20, 30, 55, 0.8),
-          rgba(12, 18, 35, 0.8)
-        );
-        border: 1px solid rgba(0, 200, 150, 0.12);
-        border-radius: 16px;
-        padding: 20px 18px;
-        backdrop-filter: blur(6px);
-        transition: all 0.35s ease;
-        position: relative;
+      /* ===== Product Table ===== */
+      .product-table-wrapper {
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 18px;
+        padding: 18px 20px;
+        margin-bottom: 16px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
         overflow: hidden;
       }
-      .category-card::before {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 3px;
-        background: linear-gradient(90deg, #00c896, #00d4ff);
-        opacity: 0;
-        transition: opacity 0.35s;
-      }
-      .category-card:hover {
-        transform: translateY(-5px);
-        border-color: rgba(0, 200, 150, 0.35);
-        box-shadow: 0 12px 40px rgba(0, 200, 150, 0.12);
-      }
-      .category-card:hover::before {
-        opacity: 1;
-      }
-
-      .category-card .card-header {
+      .product-table-wrapper .pt-header {
         display: flex;
         align-items: center;
         gap: 12px;
-        margin-bottom: 14px;
+        margin-bottom: 16px;
       }
-      .category-card .card-header .emoji {
-        font-size: 30px;
+      .product-table-wrapper .pt-header .pt-emoji {
+        font-size: 28px;
       }
-      .category-card .card-header h3 {
+      .product-table-wrapper .pt-header h3 {
         font-size: 16px;
         font-weight: 700;
-        color: #f0f4ff;
+        color: #1a2a3a;
       }
 
-      .category-card .items {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 7px;
+      .product-table-wrapper table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 13px;
       }
-      .category-card .tag {
-        background: rgba(0, 200, 150, 0.08);
-        border: 1px solid rgba(0, 200, 150, 0.15);
-        border-radius: 20px;
-        padding: 4px 12px;
+      .product-table-wrapper th {
+        text-align: right;
+        padding: 10px 12px;
+        background: rgba(10, 122, 90, 0.06);
+        color: #0a7a5a;
+        font-weight: 700;
         font-size: 12px;
-        color: #b0c8e0;
-        transition: all 0.25s;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
+        border-bottom: 2px solid rgba(10, 122, 90, 0.08);
       }
-      .category-card .tag:hover {
-        background: rgba(0, 200, 150, 0.18);
-        border-color: rgba(0, 200, 150, 0.35);
-        color: #e0f0ff;
+      .product-table-wrapper td {
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.03);
+        color: #2a4a5a;
+        vertical-align: top;
       }
-      .category-card .tag .t-emoji {
-        font-size: 14px;
+      .product-table-wrapper tr:last-child td {
+        border-bottom: none;
       }
-
-      /* Sub-items inside tags */
-      .category-card .sub-items {
+      .product-table-wrapper tr:hover td {
+        background: rgba(255, 255, 255, 0.3);
+      }
+      .product-table-wrapper .tag-sm {
+        display: inline-block;
+        background: rgba(10, 122, 90, 0.06);
+        border: 1px solid rgba(10, 122, 90, 0.1);
+        border-radius: 10px;
+        padding: 1px 8px;
+        font-size: 11px;
+        color: #0a7a5a;
+        margin: 1px 2px;
+      }
+      .product-table-wrapper .sub-desc {
         display: flex;
         flex-wrap: wrap;
-        gap: 5px;
-        margin-top: 8px;
-        padding-right: 8px;
+        gap: 4px;
+        margin-top: 4px;
       }
-      .category-card .sub-tag {
-        background: rgba(0, 212, 255, 0.06);
-        border: 1px solid rgba(0, 212, 255, 0.1);
-        border-radius: 14px;
-        padding: 2px 10px;
-        font-size: 11px;
-        color: #8aaccc;
+      .product-table-wrapper .usage-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
       }
-      .category-card .sub-tag::before {
-        content: "▸ ";
-        color: #00d4ff;
+      .product-table-wrapper .usage-tag {
+        background: rgba(0, 150, 200, 0.06);
+        border: 1px solid rgba(0, 150, 200, 0.1);
+        border-radius: 8px;
+        padding: 1px 8px;
+        font-size: 10px;
+        color: #1080c0;
       }
 
-      /* ===== Pipeline ===== */
-      .pipeline-wrapper {
-        background: linear-gradient(
-          145deg,
-          rgba(20, 30, 55, 0.6),
-          rgba(12, 18, 35, 0.6)
-        );
-        border: 1px solid rgba(0, 200, 150, 0.12);
-        border-radius: 18px;
-        padding: 28px 20px;
+      /* ===== Sub section cards ===== */
+      .sub-cards {
+        display: grid;
+        gap: 12px;
+      }
+      .sub-cards.cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .sub-cards.cols-3 {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      .sub-cards.cols-4 {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .sub-card {
+        background: rgba(255, 255, 255, 0.4);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 14px;
+        padding: 14px 16px;
+        transition: all 0.3s;
+      }
+      .sub-card:hover {
+        background: rgba(255, 255, 255, 0.6);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+      }
+      .sub-card .sc-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 8px;
+      }
+      .sub-card .sc-header .sc-emoji {
+        font-size: 24px;
+      }
+      .sub-card .sc-header h4 {
+        font-size: 14px;
+        font-weight: 700;
+        color: #1a2a3a;
+      }
+      .sub-card .sc-body {
+        font-size: 12px;
+        color: #446688;
+        line-height: 1.7;
+      }
+      .sub-card .sc-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        margin-top: 6px;
+      }
+
+      /* ===== Architecture / Pipeline ===== */
+      .arch-wrapper {
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        border-radius: 20px;
+        padding: 28px 24px;
         position: relative;
         overflow: hidden;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.03);
       }
-      .pipeline-wrapper::before {
+      .arch-wrapper::before {
         content: "";
         position: absolute;
         inset: 0;
         background: radial-gradient(
           ellipse at 50% 0%,
-          rgba(0, 200, 150, 0.04),
+          rgba(10, 122, 90, 0.04),
           transparent 70%
         );
         pointer-events: none;
       }
 
-      .pipeline-arrow-row {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0;
-        margin-bottom: 20px;
-        flex-wrap: wrap;
-      }
-      .pipeline-arrow-row .pipe-step {
-        display: flex;
-        align-items: center;
-        gap: 0;
-      }
-      .pipeline-arrow-row .pipe-box {
-        background: linear-gradient(
-          135deg,
-          rgba(0, 200, 150, 0.12),
-          rgba(0, 212, 255, 0.08)
-        );
-        border: 1px solid rgba(0, 200, 150, 0.2);
-        border-radius: 12px;
-        padding: 12px 18px;
-        text-align: center;
-        min-width: 110px;
-        transition: all 0.3s;
-        position: relative;
-      }
-      .pipeline-arrow-row .pipe-box:hover {
-        background: linear-gradient(
-          135deg,
-          rgba(0, 200, 150, 0.2),
-          rgba(0, 212, 255, 0.14)
-        );
-        border-color: rgba(0, 200, 150, 0.4);
-        transform: scale(1.04);
-        box-shadow: 0 6px 24px rgba(0, 200, 150, 0.15);
-      }
-      .pipeline-arrow-row .pipe-box .p-emoji {
-        font-size: 24px;
-        display: block;
-        margin-bottom: 4px;
-      }
-      .pipeline-arrow-row .pipe-box .p-label {
-        font-size: 12px;
-        font-weight: 600;
-        color: #d0e0f0;
-      }
-      .pipeline-arrow-row .pipe-arrow {
-        font-size: 22px;
-        color: rgba(0, 200, 150, 0.4);
-        margin: 0 6px;
-        flex-shrink: 0;
-      }
-
-      /* ===== Data Flow Arrow (big) ===== */
-      .data-flow {
+      .arch-flow {
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 14px;
         padding: 14px 0 10px;
-        color: #556688;
+        color: #6688aa;
         font-size: 14px;
         font-weight: 500;
-        letter-spacing: 2px;
       }
-      .data-flow .flow-line {
-        width: 120px;
+      .arch-flow .flow-line {
+        width: 100px;
         height: 2px;
-        background: linear-gradient(90deg, transparent, #00c896, transparent);
+        background: linear-gradient(90deg, transparent, #0a7a5a, transparent);
         animation: flowPulse 2s ease-in-out infinite;
       }
       @keyframes flowPulse {
@@ -358,16 +297,66 @@
           opacity: 0.8;
         }
       }
-      .data-flow .flow-text {
+      .arch-flow .flow-text {
         display: flex;
         align-items: center;
         gap: 8px;
-        color: #00c896;
-        font-size: 15px;
+        color: #0a7a5a;
+        font-size: 14px;
       }
 
-      /* ===== Sub-Pipeline (second row) ===== */
-      .sub-pipeline {
+      .arch-pipeline {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        flex-wrap: wrap;
+      }
+      .arch-pipeline .ap-step {
+        display: flex;
+        align-items: center;
+      }
+      .arch-pipeline .ap-box {
+        background: linear-gradient(
+          135deg,
+          rgba(10, 122, 90, 0.08),
+          rgba(16, 128, 200, 0.05)
+        );
+        border: 1px solid rgba(10, 122, 90, 0.15);
+        border-radius: 12px;
+        padding: 10px 16px;
+        text-align: center;
+        min-width: 100px;
+        transition: all 0.3s;
+      }
+      .arch-pipeline .ap-box:hover {
+        background: linear-gradient(
+          135deg,
+          rgba(10, 122, 90, 0.15),
+          rgba(16, 128, 200, 0.1)
+        );
+        border-color: rgba(10, 122, 90, 0.3);
+        transform: scale(1.04);
+        box-shadow: 0 6px 20px rgba(10, 122, 90, 0.1);
+      }
+      .arch-pipeline .ap-box .ap-emoji {
+        font-size: 22px;
+        display: block;
+        margin-bottom: 3px;
+      }
+      .arch-pipeline .ap-box .ap-label {
+        font-size: 11px;
+        font-weight: 600;
+        color: #2a4a5a;
+      }
+      .arch-pipeline .ap-arrow {
+        font-size: 20px;
+        color: rgba(10, 122, 90, 0.3);
+        margin: 0 4px;
+        flex-shrink: 0;
+      }
+
+      .arch-sub {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -375,59 +364,58 @@
         flex-wrap: wrap;
         margin-top: 16px;
       }
-      .sub-pipeline .sp-step {
+      .arch-sub .as-step {
         display: flex;
         align-items: center;
       }
-      .sub-pipeline .sp-box {
-        background: rgba(0, 212, 255, 0.04);
-        border: 1px solid rgba(0, 212, 255, 0.08);
+      .arch-sub .as-box {
+        background: rgba(16, 128, 200, 0.03);
+        border: 1px solid rgba(16, 128, 200, 0.06);
         border-radius: 10px;
-        padding: 8px 14px;
+        padding: 6px 12px;
         text-align: center;
-        min-width: 90px;
+        min-width: 80px;
         transition: all 0.3s;
       }
-      .sub-pipeline .sp-box:hover {
-        background: rgba(0, 212, 255, 0.1);
-        border-color: rgba(0, 212, 255, 0.2);
+      .arch-sub .as-box:hover {
+        background: rgba(16, 128, 200, 0.08);
+        border-color: rgba(16, 128, 200, 0.12);
         transform: translateY(-2px);
       }
-      .sub-pipeline .sp-box .sp-emoji {
-        font-size: 20px;
+      .arch-sub .as-box .as-emoji {
+        font-size: 18px;
         display: block;
-        margin-bottom: 3px;
+        margin-bottom: 2px;
       }
-      .sub-pipeline .sp-box .sp-label {
-        font-size: 11px;
+      .arch-sub .as-box .as-label {
+        font-size: 10px;
         font-weight: 500;
-        color: #8aaccc;
+        color: #446688;
       }
-      .sub-pipeline .sp-arrow {
-        font-size: 16px;
-        color: rgba(0, 212, 255, 0.25);
-        margin: 0 4px;
+      .arch-sub .as-arrow {
+        font-size: 14px;
+        color: rgba(16, 128, 200, 0.2);
+        margin: 0 3px;
       }
 
-      /* ===== Dashboard Cards ===== */
+      /* ===== Dashboard ===== */
       .dash-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-        gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 16px;
       }
       .dash-card {
-        background: linear-gradient(
-          145deg,
-          rgba(20, 30, 55, 0.8),
-          rgba(12, 18, 35, 0.8)
-        );
-        border: 1px solid rgba(0, 200, 150, 0.12);
+        background: rgba(255, 255, 255, 0.5);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
         border-radius: 16px;
-        padding: 24px 20px;
+        padding: 22px 18px;
         text-align: center;
         transition: all 0.35s;
         position: relative;
         overflow: hidden;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
       }
       .dash-card::after {
         content: "";
@@ -436,442 +424,1127 @@
         left: 0;
         right: 0;
         height: 3px;
-        background: linear-gradient(90deg, #00c896, #00d4ff);
+        background: linear-gradient(90deg, #0a7a5a, #1080c0);
         opacity: 0;
         transition: opacity 0.35s;
       }
       .dash-card:hover {
         transform: translateY(-4px);
-        border-color: rgba(0, 200, 150, 0.3);
-        box-shadow: 0 10px 35px rgba(0, 200, 150, 0.1);
+        border-color: rgba(10, 122, 90, 0.2);
+        box-shadow: 0 10px 35px rgba(0, 0, 0, 0.05);
       }
       .dash-card:hover::after {
         opacity: 1;
       }
       .dash-card .d-emoji {
-        font-size: 40px;
+        font-size: 36px;
         display: block;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
       }
       .dash-card .d-label {
-        font-size: 15px;
+        font-size: 14px;
         font-weight: 600;
-        color: #e0e8f0;
-        margin-bottom: 6px;
+        color: #1a2a3a;
+        margin-bottom: 4px;
       }
       .dash-card .d-status {
         display: inline-block;
-        background: rgba(0, 200, 150, 0.1);
-        border-radius: 12px;
-        padding: 2px 14px;
-        font-size: 12px;
-        color: #00c896;
+        background: rgba(10, 122, 90, 0.08);
+        border-radius: 10px;
+        padding: 2px 12px;
+        font-size: 11px;
+        color: #0a7a5a;
+        font-weight: 600;
       }
       .dash-card .d-status.warn {
-        background: rgba(255, 180, 0, 0.1);
-        color: #ffb400;
+        background: rgba(212, 136, 10, 0.1);
+        color: #d4880a;
       }
       .dash-card .d-status.critical {
-        background: rgba(255, 60, 60, 0.1);
-        color: #ff5c5c;
+        background: rgba(200, 50, 50, 0.1);
+        color: #c83232;
       }
 
-      /* ===== Warning Box ===== */
       .warning-box {
         display: flex;
         align-items: center;
         gap: 14px;
-        background: linear-gradient(
-          135deg,
-          rgba(255, 180, 0, 0.07),
-          rgba(255, 120, 0, 0.04)
-        );
-        border: 1px solid rgba(255, 180, 0, 0.15);
+        background: rgba(212, 136, 10, 0.06);
+        border: 1px solid rgba(212, 136, 10, 0.12);
         border-radius: 14px;
-        padding: 16px 22px;
-        margin-top: 22px;
+        padding: 14px 20px;
+        margin-top: 20px;
       }
       .warning-box .w-emoji {
-        font-size: 30px;
+        font-size: 26px;
         flex-shrink: 0;
       }
       .warning-box .w-text {
-        font-size: 14px;
-        color: #d0c8a0;
+        font-size: 13px;
+        color: #8a7a40;
       }
       .warning-box .w-text strong {
-        color: #ffb400;
+        color: #d4880a;
       }
 
-      /* ===== Footer ===== */
       .footer {
         position: relative;
         z-index: 1;
         text-align: center;
         padding: 30px 20px;
-        border-top: 1px solid rgba(0, 200, 150, 0.08);
-        color: #445577;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        color: #88aacc;
         font-size: 13px;
       }
 
       /* ===== Responsive ===== */
       @media (max-width: 1100px) {
-        .cards-grid.cols-5 {
-          grid-template-columns: repeat(3, 1fr);
-        }
-        .cards-grid.cols-6 {
-          grid-template-columns: repeat(3, 1fr);
+        .sub-cards.cols-4 {
+          grid-template-columns: repeat(2, 1fr);
         }
       }
       @media (max-width: 768px) {
         .header h1 {
-          font-size: 24px;
+          font-size: 22px;
         }
-        .cards-grid.cols-2,
-        .cards-grid.cols-3,
-        .cards-grid.cols-4,
-        .cards-grid.cols-5,
-        .cards-grid.cols-6 {
-          grid-template-columns: repeat(2, 1fr);
+        .sub-cards.cols-2,
+        .sub-cards.cols-3,
+        .sub-cards.cols-4 {
+          grid-template-columns: 1fr;
         }
-        .pipeline-arrow-row,
-        .sub-pipeline {
+        .arch-pipeline {
           flex-direction: column;
-          align-items: center;
         }
-        .pipeline-arrow-row .pipe-arrow,
-        .sub-pipeline .sp-arrow {
+        .arch-pipeline .ap-arrow {
           transform: rotate(90deg);
-          margin: 6px 0;
+          margin: 4px 0;
         }
-        .data-flow {
+        .arch-sub {
           flex-direction: column;
         }
-        .data-flow .flow-line {
-          width: 2px;
-          height: 40px;
+        .arch-sub .as-arrow {
+          transform: rotate(90deg);
+          margin: 3px 0;
         }
-      }
-      @media (max-width: 480px) {
-        .cards-grid.cols-2,
-        .cards-grid.cols-3,
-        .cards-grid.cols-4,
-        .cards-grid.cols-5,
-        .cards-grid.cols-6 {
-          grid-template-columns: 1fr;
+        .product-table-wrapper {
+          padding: 14px;
         }
-        .dash-grid {
-          grid-template-columns: 1fr;
+        .product-table-wrapper table {
+          font-size: 12px;
+        }
+        .product-table-wrapper th,
+        .product-table-wrapper td {
+          padding: 6px 8px;
         }
       }
 
-      /* ===== Floating Animation ===== */
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-8px);
-        }
-      }
-      .float-anim {
-        animation: float 3s ease-in-out infinite;
-      }
-      .float-anim-delay {
-        animation: float 4s ease-in-out 1s infinite;
+      .leaflet-popup-content-wrapper {
+        background: rgba(255, 255, 255, 0.85) !important;
+        backdrop-filter: blur(16px) !important;
+        color: #1a2a3a !important;
+        border: 1px solid rgba(255, 255, 255, 0.4) !important;
+        border-radius: 16px !important;
+        font-family: "Vazirmatn", sans-serif !important;
       }
     </style>
   </head>
   <body>
-    <!-- ===== Particles Canvas ===== -->
     <canvas id="particles-canvas"></canvas>
 
-    <!-- ===== Header ===== -->
     <header class="header">
       <span class="header-icon">🌾</span>
       <h1>سامانه مدیریت هوشمند کشاورزی</h1>
-      <p>پلتفرم یکپارچه داده‌های کشاورزی دقیق (Precision Agriculture)</p>
+      <p>
+        پلتفرم یکپارچه داده‌های کشاورزی دقیق · Precision Agriculture Platform
+      </p>
     </header>
 
-    <!-- ===== Main Container ===== -->
     <div class="container">
       <!-- ============================================================ -->
-      <!-- 1. Data Sources -->
+      <!-- 1. SENSORS (IoT Devices) -->
       <!-- ============================================================ -->
       <div class="section-title">
         <span class="icon">📡</span>
-        <h2>ورودی‌های سیستم (Data Sources)</h2>
+        <h2>ورودی‌های سیستم · سنسورها و دستگاه‌های IoT</h2>
         <span class="line"></span>
       </div>
 
-      <!-- IoT Devices -->
-      <div class="category-card" style="margin-bottom: 16px">
-        <div class="card-header">
-          <span class="emoji">📶</span>
-          <h3>IoT Devices · سنسورهای مزرعه و گلخانه</h3>
+      <!-- Temperature -->
+      <div class="product-table-wrapper">
+        <div class="pt-header">
+          <span class="pt-emoji">🌡️</span>
+          <h3>سنسور دمای هوا (Air Temperature)</h3>
         </div>
-        <div class="items">
-          <span class="tag"><span class="t-emoji">🌡️</span> دمای هوا</span>
-          <span class="tag"><span class="t-emoji">💧</span> رطوبت هوا</span>
-          <span class="tag"><span class="t-emoji">🌱</span> رطوبت خاک</span>
-          <span class="tag"><span class="t-emoji">🧪</span> EC</span>
-          <span class="tag"><span class="t-emoji">⚗️</span> pH</span>
-          <span class="tag"><span class="t-emoji">🧬</span> NPK</span>
-          <span class="tag"><span class="t-emoji">💨</span> CO₂</span>
-          <span class="tag"><span class="t-emoji">☀️</span> شدت نور</span>
-          <span class="tag"><span class="t-emoji">🕶️</span> UV</span>
-          <span class="tag"><span class="t-emoji">🌬️</span> سرعت باد</span>
-          <span class="tag"><span class="t-emoji">🧭</span> جهت باد</span>
-          <span class="tag"><span class="t-emoji">🌧️</span> بارندگی</span>
-          <span class="tag"><span class="t-emoji">📏</span> سطح آب</span>
-          <span class="tag"><span class="t-emoji">🚰</span> دبی آب</span>
-          <span class="tag"><span class="t-emoji">⚡</span> مصرف برق</span>
-          <span class="tag"><span class="t-emoji">🚿</span> مصرف آب</span>
-        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>برند</th>
+              <th>مدل</th>
+              <th>توضیح</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Libelium</td>
+              <td>Smart Agriculture Sensor Node</td>
+              <td>ایستگاه کشاورزی کامل</td>
+            </tr>
+            <tr>
+              <td>Dragino</td>
+              <td>LHT65</td>
+              <td>دما + رطوبت LoRaWAN</td>
+            </tr>
+            <tr>
+              <td>Sensirion</td>
+              <td>SHT35</td>
+              <td>سنسور صنعتی دقیق</td>
+            </tr>
+            <tr>
+              <td>Decagon Devices</td>
+              <td>VP-4</td>
+              <td>سنسور محیطی چندگانه</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <!-- Camera Vision -->
-      <div class="category-card" style="margin-bottom: 16px">
-        <div class="card-header">
-          <span class="emoji">📷</span>
-          <h3>Camera Vision · بینایی ماشین</h3>
+      <!-- Humidity -->
+      <div class="product-table-wrapper">
+        <div class="pt-header">
+          <span class="pt-emoji">💧</span>
+          <h3>رطوبت هوا (Humidity)</h3>
         </div>
-        <div class="items">
-          <span class="tag"><span class="t-emoji">🔴</span> دوربین RGB</span>
-          <span class="tag"><span class="t-emoji">🌑</span> دوربین IR</span>
-          <span class="tag"
-            ><span class="t-emoji">🔥</span> Thermal Camera</span
-          >
-          <span class="tag"
-            ><span class="t-emoji">🌈</span> Multispectral Camera</span
-          >
-        </div>
-        <div class="sub-items">
-          <span class="sub-tag">🔍 تشخیص بیماری</span>
-          <span class="sub-tag">🐛 تشخیص آفت</span>
-          <span class="sub-tag">🍎 شمارش میوه</span>
-          <span class="sub-tag">🌿 تشخیص رشد گیاه</span>
-          <span class="sub-tag">🍂 تشخیص رنگ برگ</span>
-          <span class="sub-tag">🧪 تشخیص کمبود عناصر غذایی</span>
-          <span class="sub-tag">🌾 تشخیص علف هرز</span>
-        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>برند</th>
+              <th>مدل</th>
+              <th>کاربرد</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Sensirion</td>
+              <td>SHT31</td>
+              <td>گلخانه</td>
+            </tr>
+            <tr>
+              <td>Sensirion</td>
+              <td>SHT35</td>
+              <td>صنعتی</td>
+            </tr>
+            <tr>
+              <td>Aosong</td>
+              <td>AM2315</td>
+              <td>ارزان</td>
+            </tr>
+            <tr>
+              <td>Texas Instruments</td>
+              <td>HDC3020</td>
+              <td>دقت بالا</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="cards-grid cols-4" style="margin-bottom: 16px">
-        <!-- Drone -->
-        <div class="category-card">
-          <div class="card-header">
-            <span class="emoji">🛸</span>
-            <h3>Drone · پهپاد</h3>
+      <!-- Soil Moisture -->
+      <div class="product-table-wrapper">
+        <div class="pt-header">
+          <span class="pt-emoji">🌱</span>
+          <h3>رطوبت خاک (Soil Moisture)</h3>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>برند</th>
+              <th>مدل</th>
+              <th>تکنولوژی</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>METER Group</td>
+              <td>TEROS 12</td>
+              <td>رطوبت + EC + دما</td>
+            </tr>
+            <tr>
+              <td>Delta-T Devices</td>
+              <td>SM150T</td>
+              <td>خاک حرفه‌ای</td>
+            </tr>
+            <tr>
+              <td>METER Group</td>
+              <td>5TE</td>
+              <td>رطوبت + EC</td>
+            </tr>
+            <tr>
+              <td>Campbell Scientific</td>
+              <td>CS655</td>
+              <td>TDR</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- EC -->
+      <div class="product-table-wrapper">
+        <div class="pt-header">
+          <span class="pt-emoji">🧪</span>
+          <h3>EC خاک (Electrical Conductivity)</h3>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>برند</th>
+              <th>مدل</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>METER Group</td>
+              <td>TEROS 12</td>
+            </tr>
+            <tr>
+              <td>METER Group</td>
+              <td>GS3</td>
+            </tr>
+            <tr>
+              <td>METER Group</td>
+              <td>EC-5</td>
+            </tr>
+            <tr>
+              <td>Sentek</td>
+              <td>S300</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- pH -->
+      <div class="product-table-wrapper">
+        <div class="pt-header">
+          <span class="pt-emoji">⚗️</span>
+          <h3>pH خاک و آب</h3>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>برند</th>
+              <th>مدل</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Hanna Instruments</td>
+              <td>HI12923</td>
+            </tr>
+            <tr>
+              <td>Atlas Scientific</td>
+              <td>EZO-pH</td>
+            </tr>
+            <tr>
+              <td>Seneye</td>
+              <td>Seneye pH Probe</td>
+            </tr>
+            <tr>
+              <td>Xylem</td>
+              <td>WTW IDS</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- NPK -->
+      <div class="product-table-wrapper">
+        <div class="pt-header">
+          <span class="pt-emoji">🧬</span>
+          <h3>NPK (نیتروژن، فسفر، پتاسیم)</h3>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>برند</th>
+              <th>مدل</th>
+              <th>توضیح</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Rika Sensor</td>
+              <td>NPK Sensor RS-NPK-N01</td>
+              <td>LoRa</td>
+            </tr>
+            <tr>
+              <td>JXCT</td>
+              <td>SRS-NPK</td>
+              <td>کشاورزی</td>
+            </tr>
+            <tr>
+              <td>Dragino</td>
+              <td>SOIL-NPK</td>
+              <td>IoT</td>
+            </tr>
+            <tr>
+              <td>AgroSense</td>
+              <td>AgroSense NPK</td>
+              <td>صنعتی</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- CO2 + Light + UV + Wind + Rain + Water + Flow + Power in compact sub-cards -->
+      <div class="sub-cards cols-4" style="margin-bottom: 16px">
+        <!-- CO₂ -->
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">💨</span>
+            <h4>CO₂</h4>
           </div>
-          <div class="items">
-            <span class="tag"
-              ><span class="t-emoji">🗺️</span> نقشه‌برداری مزرعه</span
-            >
-            <span class="tag"><span class="t-emoji">🟢</span> NDVI</span>
-            <span class="tag"><span class="t-emoji">🔵</span> NDRE</span>
-            <span class="tag"
-              ><span class="t-emoji">🔥</span> Thermal Imaging</span
-            >
-            <span class="tag"
-              ><span class="t-emoji">📊</span> نقشه تنش گیاه</span
-            >
-            <span class="tag"><span class="t-emoji">📈</span> پایش رشد</span>
+          <div class="sc-body">
+            <div>Senseair Sunrise</div>
+            <div>Winsen MH-Z19B</div>
+            <div>Sensirion SCD41</div>
+            <div>GSS COZIR Ambient</div>
           </div>
         </div>
-
-        <!-- Robot -->
-        <div class="category-card">
-          <div class="card-header">
-            <span class="emoji">🤖</span>
-            <h3>Robot · ربات</h3>
+        <!-- Light -->
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">☀️</span>
+            <h4>شدت نور (Light)</h4>
           </div>
-          <div class="items">
-            <span class="tag"
-              ><span class="t-emoji">🧪</span> ربات نمونه‌بردار</span
-            >
-            <span class="tag"><span class="t-emoji">💨</span> ربات سمپاش</span>
-            <span class="tag"><span class="t-emoji">🤲</span> ربات برداشت</span>
-            <span class="tag"><span class="t-emoji">🔎</span> ربات بازرسی</span>
+          <div class="sc-body">
+            <div>AMS TSL2591</div>
+            <div>ROHM BH1750</div>
+            <div>Onset S-LIA-M003</div>
+            <div>Apogee PAR SQ-500</div>
           </div>
         </div>
-
-        <!-- Satellite -->
-        <div class="category-card">
-          <div class="card-header">
-            <span class="emoji">🛰️</span>
-            <h3>Satellite · ماهواره</h3>
+        <!-- UV -->
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🕶️</span>
+            <h4>UV</h4>
           </div>
-          <div class="items">
-            <span class="tag"><span class="t-emoji">🛰️</span> Sentinel</span>
-            <span class="tag"><span class="t-emoji">🛰️</span> Landsat</span>
-            <span class="tag"><span class="t-emoji">🛰️</span> Planet</span>
-          </div>
-          <div class="sub-items">
-            <span class="sub-tag">🌿 تغییرات پوشش گیاهی</span>
-            <span class="sub-tag">🧑‍🌾 وضعیت مزرعه</span>
-            <span class="sub-tag">🏜️ خشکسالی</span>
-            <span class="sub-tag">💧 وضعیت آب</span>
+          <div class="sc-body">
+            <div>Vishay VEML6075</div>
+            <div>Genicom GUVA-S12SD</div>
+            <div>Apogee SU-100</div>
           </div>
         </div>
-
-        <!-- External Data -->
-        <div class="category-card">
-          <div class="card-header">
-            <span class="emoji">🌐</span>
-            <h3>External Data · داده‌های خارجی</h3>
+        <!-- Wind Speed -->
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🌬️</span>
+            <h4>سرعت باد</h4>
           </div>
-          <div class="items">
-            <span class="tag"><span class="t-emoji">🌤️</span> هواشناسی</span>
-            <span class="tag"
-              ><span class="t-emoji">🌧️</span> پیش‌بینی بارندگی</span
-            >
-            <span class="tag"><span class="t-emoji">💰</span> قیمت بازار</span>
-            <span class="tag"
-              ><span class="t-emoji">🧑‍🌾</span> اطلاعات خاک منطقه</span
-            >
-            <span class="tag"><span class="t-emoji">🗺️</span> اطلاعات GIS</span>
-            <span class="tag"
-              ><span class="t-emoji">📜</span> نقشه‌های کشاورزی</span
-            >
+          <div class="sc-body">
+            <div>Gill WindSonic</div>
+            <div>RM Young 03002</div>
+            <div>METER ATMOS 41</div>
+          </div>
+        </div>
+        <!-- Wind Direction -->
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🧭</span>
+            <h4>جهت باد</h4>
+          </div>
+          <div class="sc-body">
+            <div>RM Young 05103</div>
+            <div>Gill WindSonic</div>
+          </div>
+        </div>
+        <!-- Rain -->
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🌧️</span>
+            <h4>بارندگی</h4>
+          </div>
+          <div class="sc-body">
+            <div>Texas TE525</div>
+            <div>Onset RG3</div>
+            <div>Hydrological TB4</div>
+          </div>
+        </div>
+        <!-- Water Level -->
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">📏</span>
+            <h4>سطح آب</h4>
+          </div>
+          <div class="sc-body">
+            <div>VEGA VEGAPULS</div>
+            <div>Banner Lidar</div>
+            <div>Senix Uson-11</div>
+          </div>
+        </div>
+        <!-- Flow -->
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🚰</span>
+            <h4>دبی آب</h4>
+          </div>
+          <div class="sc-body">
+            <div>Sea YF-S201</div>
+            <div>Siemens SITRANS F</div>
+            <div>Krohne OPTIFLUX</div>
+          </div>
+        </div>
+        <!-- Power -->
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">⚡</span>
+            <h4>مصرف برق</h4>
+          </div>
+          <div class="sc-body">
+            <div>Shelly Pro EM</div>
+            <div>Carlo Gavazzi EM340</div>
+            <div>Schneider PowerLogic</div>
+          </div>
+        </div>
+        <!-- Water Use -->
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🚿</span>
+            <h4>مصرف آب</h4>
+          </div>
+          <div class="sc-body">
+            <div>سنسورهای اولتراسونیک</div>
+            <div>شیرهای هوشمند</div>
+            <div>فلوترهای دیجیتال</div>
           </div>
         </div>
       </div>
 
       <!-- ============================================================ -->
-      <!-- 2. Processing Pipeline -->
+      <!-- 2. CAMERA VISION -->
       <!-- ============================================================ -->
       <div class="section-title">
-        <span class="icon">⚙️</span>
-        <h2>پردازش · Data Platform</h2>
+        <span class="icon">📷</span>
+        <h2>بینایی ماشین · Camera Vision</h2>
         <span class="line"></span>
       </div>
 
-      <div class="pipeline-wrapper">
-        <!-- Ingest Arrow -->
-        <div class="data-flow">
+      <div class="sub-cards cols-4" style="margin-bottom: 16px">
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🔴</span>
+            <h4>RGB Camera</h4>
+          </div>
+          <div class="sc-body">
+            <div>Basler ace</div>
+            <div>FLIR Blackfly S</div>
+            <div>Hikrobot MV Series</div>
+            <div>Dahua AI Camera</div>
+          </div>
+          <div class="sc-tags">
+            <span class="usage-tag">تشخیص بیماری</span>
+            <span class="usage-tag">شمارش میوه</span>
+            <span class="usage-tag">رشد گیاه</span>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🔥</span>
+            <h4>Thermal Camera</h4>
+          </div>
+          <div class="sc-body">
+            <div>FLIR A-series</div>
+            <div>FLIR Vue Pro R</div>
+            <div>Workswell WIRIS</div>
+            <div>Optris PI Series</div>
+          </div>
+          <div class="sc-tags">
+            <span class="usage-tag">تنش آبی</span>
+            <span class="usage-tag">بیماری</span>
+            <span class="usage-tag">نقاط گرم گیاه</span>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🌈</span>
+            <h4>Multispectral Camera</h4>
+          </div>
+          <div class="sc-body">
+            <div>MicaSense RedEdge-P</div>
+            <div>MicaSense Altum-PT</div>
+            <div>Parrot Sequoia+</div>
+            <div>Sentera Survey3W</div>
+          </div>
+          <div class="sc-tags">
+            <span class="usage-tag">Red</span>
+            <span class="usage-tag">Green</span>
+            <span class="usage-tag">Blue</span>
+            <span class="usage-tag">Red Edge</span>
+            <span class="usage-tag">NIR</span>
+          </div>
+          <div style="margin-top: 6px; font-size: 11px; color: #1080c0">
+            برای NDVI, NDRE, سلامت گیاه
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🌑</span>
+            <h4>IR Camera</h4>
+          </div>
+          <div class="sc-body">
+            <div>دوربین‌های حرارتی</div>
+            <div>IR Spectroscopy</div>
+          </div>
+          <div class="sc-tags">
+            <span class="usage-tag">تحلیل رطوبت</span>
+            <span class="usage-tag">کیفیت محصول</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 3. DRONE -->
+      <!-- ============================================================ -->
+      <div class="section-title">
+        <span class="icon">🛸</span>
+        <h2>پهپاد · Drone</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="sub-cards cols-2" style="margin-bottom: 16px">
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🗺️</span>
+            <h4>DJI Agriculture</h4>
+          </div>
+          <table
+            style="
+              width: 100%;
+              font-size: 12px;
+              border-collapse: collapse;
+              margin-top: 6px;
+            "
+          >
+            <thead>
+              <tr>
+                <th
+                  style="
+                    text-align: right;
+                    padding: 4px 6px;
+                    color: #0a7a5a;
+                    font-weight: 700;
+                  "
+                >
+                  مدل
+                </th>
+                <th
+                  style="
+                    text-align: right;
+                    padding: 4px 6px;
+                    color: #0a7a5a;
+                    font-weight: 700;
+                  "
+                >
+                  کاربرد
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding: 4px 6px">DJI Mavic 3 Multispectral</td>
+                <td style="padding: 4px 6px">NDVI + Mapping</td>
+              </tr>
+              <tr>
+                <td style="padding: 4px 6px">DJI Agras T50</td>
+                <td style="padding: 4px 6px">سمپاش</td>
+              </tr>
+              <tr>
+                <td style="padding: 4px 6px">DJI Phantom 4 RTK</td>
+                <td style="padding: 4px 6px">نقشه‌برداری</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🔬</span>
+            <h4>سنسورهای Drone</h4>
+          </div>
+          <div style="font-size: 12px; color: #446688">
+            <div style="font-weight: 700; margin-top: 4px; color: #0a7a5a">
+              Multispectral:
+            </div>
+            <div>MicaSense RedEdge-P · MicaSense Altum PT</div>
+            <div style="font-weight: 700; margin-top: 4px; color: #0a7a5a">
+              Thermal:
+            </div>
+            <div>FLIR Vue Pro R · Workswell WIRIS Pro</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 4. ROBOT -->
+      <!-- ============================================================ -->
+      <div class="section-title">
+        <span class="icon">🤖</span>
+        <h2>ربات‌ها · Robots</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="sub-cards cols-4" style="margin-bottom: 16px">
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🧪</span>
+            <h4>نمونه‌بردار خاک</h4>
+          </div>
+          <div class="sc-body">
+            <div>EarthSense TerraSentia</div>
+            <div>FarmBot</div>
+            <div>AgXeed Robot</div>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">💨</span>
+            <h4>ربات سمپاش</h4>
+          </div>
+          <div class="sc-body">
+            <div>Naïo Technologies Oz</div>
+            <div>Ecorobotix ARA</div>
+            <div>Blue River See & Spray</div>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🤲</span>
+            <h4>ربات برداشت</h4>
+          </div>
+          <div class="sc-body">
+            <div>Octinion Rubion</div>
+            <div>Harvest CROO Strawberry</div>
+            <div>SWEEPER Robot (EU)</div>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🔎</span>
+            <h4>ربات بازرسی</h4>
+          </div>
+          <div class="sc-body">
+            <div>Boston Dynamics Spot</div>
+            <div>ANYbotics ANYmal</div>
+            <div>Clearpath Husky UGV</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 5. SATELLITE -->
+      <!-- ============================================================ -->
+      <div class="section-title">
+        <span class="icon">🛰️</span>
+        <h2>داده‌های ماهواره‌ای · Satellite Data</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="sub-cards cols-3" style="margin-bottom: 16px">
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🛰️</span>
+            <h4>Sentinel-2</h4>
+          </div>
+          <div class="sc-body">
+            <div><strong>منبع:</strong> European Space Agency</div>
+            <div><strong>Resolution:</strong> 10m</div>
+            <div><strong>Bands:</strong> RGB · NIR · Red Edge</div>
+          </div>
+          <div class="sc-tags">
+            <span class="usage-tag">NDVI</span>
+            <span class="usage-tag">NDRE</span>
+            <span class="usage-tag">Vegetation Health</span>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🛰️</span>
+            <h4>Landsat</h4>
+          </div>
+          <div class="sc-body">
+            <div><strong>ماهواره:</strong> Landsat 8 · Landsat 9 (NASA)</div>
+            <div><strong>Resolution:</strong> 30m</div>
+          </div>
+          <div class="sc-tags">
+            <span class="usage-tag">پوشش گیاهی</span>
+            <span class="usage-tag">خشکسالی</span>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🛰️</span>
+            <h4>Planet</h4>
+          </div>
+          <div class="sc-body">
+            <div><strong>شرکت:</strong> Planet Labs</div>
+            <div><strong>محصولات:</strong> PlanetScope · SkySat</div>
+            <div><strong>Resolution:</strong> 3-5m</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 6. EXTERNAL DATA -->
+      <!-- ============================================================ -->
+      <div class="section-title">
+        <span class="icon">🌐</span>
+        <h2>داده‌های خارجی · External Data</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="sub-cards cols-3" style="margin-bottom: 16px">
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🌤️</span>
+            <h4>Weather API</h4>
+          </div>
+          <div class="sc-body">
+            <div>Tomorrow.io (کشاورزی)</div>
+            <div>Meteomatics (حرفه‌ای)</div>
+            <div>OpenWeather (عمومی)</div>
+            <div>NOAA (علمی)</div>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🌧️</span>
+            <h4>پیش‌بینی بارندگی</h4>
+          </div>
+          <div class="sc-body">
+            <div>ECMWF · GFS</div>
+            <div>Meteoblue · Weatherbit</div>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">💰</span>
+            <h4>قیمت بازار</h4>
+          </div>
+          <div class="sc-body">
+            <div>Commodity API</div>
+            <div>وزارت کشاورزی</div>
+            <div>بورس کالا</div>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🧑‍🌾</span>
+            <h4>Soil Database</h4>
+          </div>
+          <div class="sc-body">
+            <div>SoilGrids (جهانی)</div>
+            <div>ISRIC</div>
+            <div>USDA Soil Survey</div>
+            <div>FAO Soil Portal</div>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">🗺️</span>
+            <h4>GIS Data</h4>
+          </div>
+          <div class="sc-body">
+            <div>ArcGIS (Enterprise)</div>
+            <div>QGIS (Open Source)</div>
+            <div>PostGIS (Database)</div>
+            <div>GeoServer (سرویس نقشه)</div>
+          </div>
+        </div>
+        <div class="sub-card">
+          <div class="sc-header">
+            <span class="sc-emoji">📜</span>
+            <h4>نقشه‌های کشاورزی</h4>
+          </div>
+          <div class="sc-body">
+            <div>نقشه‌های توپوگرافی</div>
+            <div>نقشه‌های حاصلخیزی</div>
+            <div>نقشه‌های کاربری اراضی</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 7. ARCHITECTURE -->
+      <!-- ============================================================ -->
+      <div class="section-title">
+        <span class="icon">🏗️</span>
+        <h2>معماری پیشنهادی پلتفرم</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="arch-wrapper" style="margin-bottom: 16px">
+        <div class="arch-flow">
           <span class="flow-line"></span>
-          <span class="flow-text">📥 دریافت و یکپارچه‌سازی داده‌ها</span>
+          <span class="flow-text">📡 Sensors & Devices</span>
           <span class="flow-line"></span>
         </div>
 
-        <!-- Main Pipeline -->
-        <div class="pipeline-arrow-row">
-          <div class="pipe-step">
-            <div class="pipe-box">
-              <span class="p-emoji">🧹</span>
-              <span class="p-label">Data Cleaning</span>
+        <div class="arch-pipeline">
+          <div class="ap-step">
+            <div class="ap-box">
+              <span class="ap-emoji">📶</span
+              ><span class="ap-label">LoRaWAN / MQTT / OPC-UA</span>
             </div>
-            <span class="pipe-arrow">⟶</span>
+            <span class="ap-arrow">⟶</span>
           </div>
-          <div class="pipe-step">
-            <div class="pipe-box">
-              <span class="p-emoji">✅</span>
-              <span class="p-label">Data Validation</span>
+          <div class="ap-step">
+            <div class="ap-box">
+              <span class="ap-emoji">📡</span
+              ><span class="ap-label">IoT Gateway</span>
             </div>
-            <span class="pipe-arrow">⟶</span>
+            <span class="ap-arrow">⟶</span>
           </div>
-          <div class="pipe-step">
-            <div class="pipe-box">
-              <span class="p-emoji">⏳</span>
-              <span class="p-label">Time Series Storage</span>
+          <div class="ap-step">
+            <div class="ap-box">
+              <span class="ap-emoji">📨</span
+              ><span class="ap-label">Kafka / RabbitMQ</span>
             </div>
-            <span class="pipe-arrow">⟶</span>
+            <span class="ap-arrow">⟶</span>
           </div>
-          <div class="pipe-step">
-            <div class="pipe-box">
-              <span class="p-emoji">🧠</span>
-              <span class="p-label">AI Analysis</span>
+          <div class="ap-step">
+            <div class="ap-box">
+              <span class="ap-emoji">⏳</span
+              ><span class="ap-label">Time Series DB</span>
             </div>
-            <span class="pipe-arrow">⟶</span>
+            <span class="ap-arrow">⟶</span>
           </div>
-          <div class="pipe-step">
-            <div class="pipe-box">
-              <span class="p-emoji">📊</span>
-              <span class="p-label">Statistical Analysis</span>
-            </div>
-            <span class="pipe-arrow">⟶</span>
-          </div>
-          <div class="pipe-step">
-            <div class="pipe-box">
-              <span class="p-emoji">🔮</span>
-              <span class="p-label">Prediction</span>
-            </div>
-            <span class="pipe-arrow">⟶</span>
-          </div>
-          <div class="pipe-step">
-            <div class="pipe-box">
-              <span class="p-emoji">⚡</span>
-              <span class="p-label">Optimization</span>
+          <div class="ap-step">
+            <div class="ap-box">
+              <span class="ap-emoji">🧠</span
+              ><span class="ap-label">AI Layer</span>
             </div>
           </div>
         </div>
 
-        <!-- Sub-pipeline details -->
-        <div class="sub-pipeline">
-          <div class="sp-step">
-            <div class="sp-box">
-              <span class="sp-emoji">🗑️</span>
-              <span class="sp-label">حذف نویز</span>
+        <div class="arch-sub">
+          <div class="as-step">
+            <div class="as-box">
+              <span class="as-emoji">👁️</span
+              ><span class="as-label">Computer Vision</span>
             </div>
-            <span class="sp-arrow">→</span>
+            <span class="as-arrow">→</span>
           </div>
-          <div class="sp-step">
-            <div class="sp-box">
-              <span class="sp-emoji">🔍</span>
-              <span class="sp-label">اعتبارسنجی</span>
+          <div class="as-step">
+            <div class="as-box">
+              <span class="as-emoji">🌾</span
+              ><span class="as-label">Crop Disease AI</span>
             </div>
-            <span class="sp-arrow">→</span>
+            <span class="as-arrow">→</span>
           </div>
-          <div class="sp-step">
-            <div class="sp-box">
-              <span class="sp-emoji">💾</span>
-              <span class="sp-label">ذخیره‌سازی سری زمانی</span>
+          <div class="as-step">
+            <div class="as-box">
+              <span class="as-emoji">📈</span
+              ><span class="as-label">Yield Prediction</span>
             </div>
-            <span class="sp-arrow">→</span>
+            <span class="as-arrow">→</span>
           </div>
-          <div class="sp-step">
-            <div class="sp-box">
-              <span class="sp-emoji">🤖</span>
-              <span class="sp-label">تحلیل هوشمند</span>
+          <div class="as-step">
+            <div class="as-box">
+              <span class="as-emoji">💧</span
+              ><span class="as-label">Irrigation AI</span>
             </div>
-            <span class="sp-arrow">→</span>
+            <span class="as-arrow">→</span>
           </div>
-          <div class="sp-step">
-            <div class="sp-box">
-              <span class="sp-emoji">📉</span>
-              <span class="sp-label">تحلیل آماری</span>
+          <div class="as-step">
+            <div class="as-box">
+              <span class="as-emoji">🧪</span
+              ><span class="as-label">Fertilizer AI</span>
             </div>
-            <span class="sp-arrow">→</span>
+            <span class="as-arrow">→</span>
           </div>
-          <div class="sp-step">
-            <div class="sp-box">
-              <span class="sp-emoji">🔮</span>
-              <span class="sp-label">پیش‌بینی</span>
-            </div>
-            <span class="sp-arrow">→</span>
-          </div>
-          <div class="sp-step">
-            <div class="sp-box">
-              <span class="sp-emoji">🎯</span>
-              <span class="sp-label">بهینه‌سازی</span>
+          <div class="as-step">
+            <div class="as-box">
+              <span class="as-emoji">🏗️</span
+              ><span class="as-label">Digital Twin</span>
             </div>
           </div>
         </div>
 
-        <!-- Output Arrow -->
-        <div class="data-flow" style="margin-top: 18px">
+        <div class="arch-flow" style="margin-top: 16px">
           <span class="flow-line"></span>
-          <span class="flow-text">📤 خروجی به داشبورد مدیریت</span>
+          <span class="flow-text">📊 Dashboard (Web + Mobile)</span>
           <span class="flow-line"></span>
         </div>
       </div>
 
       <!-- ============================================================ -->
-      <!-- 3. Outputs / Dashboard -->
+      <!-- 8. RECOMMENDED STACK -->
       <!-- ============================================================ -->
-      <div class="section-title" style="margin-top: 50px">
+      <div class="section-title">
+        <span class="icon">⚡</span>
+        <h2>Stack پیشنهادی برای مقیاس چند هکتار</h2>
+        <span class="line"></span>
+      </div>
+
+      <div class="arch-wrapper" style="margin-bottom: 16px; padding: 24px">
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+          "
+        >
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.4);
+              border-radius: 14px;
+              padding: 14px 16px;
+            "
+          >
+            <div
+              style="
+                font-size: 13px;
+                font-weight: 700;
+                color: #0a7a5a;
+                margin-bottom: 6px;
+              "
+            >
+              🔲 Edge Layer
+            </div>
+            <div style="font-size: 12px; color: #446688">
+              <div>ESP32 / STM32</div>
+              <div>LoRaWAN</div>
+              <div>Industrial Gateway</div>
+            </div>
+          </div>
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.4);
+              border-radius: 14px;
+              padding: 14px 16px;
+            "
+          >
+            <div
+              style="
+                font-size: 13px;
+                font-weight: 700;
+                color: #0a7a5a;
+                margin-bottom: 6px;
+              "
+            >
+              📡 Sensors
+            </div>
+            <div style="font-size: 12px; color: #446688">
+              <div>METER TEROS</div>
+              <div>Sensirion</div>
+              <div>Campbell Scientific</div>
+            </div>
+          </div>
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.4);
+              border-radius: 14px;
+              padding: 14px 16px;
+            "
+          >
+            <div
+              style="
+                font-size: 13px;
+                font-weight: 700;
+                color: #0a7a5a;
+                margin-bottom: 6px;
+              "
+            >
+              👁️ Vision
+            </div>
+            <div style="font-size: 12px; color: #446688">
+              <div>Basler / FLIR</div>
+            </div>
+          </div>
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.4);
+              border-radius: 14px;
+              padding: 14px 16px;
+            "
+          >
+            <div
+              style="
+                font-size: 13px;
+                font-weight: 700;
+                color: #0a7a5a;
+                margin-bottom: 6px;
+              "
+            >
+              🛸 Drone
+            </div>
+            <div style="font-size: 12px; color: #446688">
+              <div>DJI Mavic 3M</div>
+              <div>+ MicaSense</div>
+            </div>
+          </div>
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.4);
+              border-radius: 14px;
+              padding: 14px 16px;
+            "
+          >
+            <div
+              style="
+                font-size: 13px;
+                font-weight: 700;
+                color: #0a7a5a;
+                margin-bottom: 6px;
+              "
+            >
+              🛰️ Satellite
+            </div>
+            <div style="font-size: 12px; color: #446688">
+              <div>Sentinel-2</div>
+              <div>+ Planet</div>
+            </div>
+          </div>
+          <div
+            style="
+              background: rgba(255, 255, 255, 0.4);
+              border-radius: 14px;
+              padding: 14px 16px;
+            "
+          >
+            <div
+              style="
+                font-size: 13px;
+                font-weight: 700;
+                color: #0a7a5a;
+                margin-bottom: 6px;
+              "
+            >
+              🤖 AI
+            </div>
+            <div style="font-size: 12px; color: #446688">
+              <div>YOLO (Vision)</div>
+              <div>Time Series Forecasting</div>
+              <div>Reinforcement Learning</div>
+            </div>
+          </div>
+        </div>
+        <div
+          style="
+            margin-top: 14px;
+            padding: 10px 14px;
+            background: rgba(10, 122, 90, 0.05);
+            border-radius: 10px;
+            font-size: 12px;
+            color: #446688;
+            text-align: center;
+          "
+        >
+          این ساختار مشابه مزارع هوشمند صنعتی اروپا، آمریکا و هلند است
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 9. DASHBOARD -->
+      <!-- ============================================================ -->
+      <div class="section-title">
         <span class="icon">📊</span>
         <h2>داشبورد مدیریت · Dashboard</h2>
         <span class="line"></span>
@@ -910,36 +1583,31 @@
         </div>
       </div>
 
-      <!-- Warning box -->
       <div class="warning-box">
         <span class="w-emoji">🔔</span>
         <div class="w-text">
-          <strong>هشدار:</strong> رطوبت خاک در قطعه B12低于 ۳۰٪ — آبیاری هوشمند
-          فعال شد. · دمای گلخانه ۳ درجه بالای阈值 — تهویه خودکار روشن.
+          <strong>هشدار:</strong> رطوبت خاک در قطعه B12 کمتر از ۳۰٪ — آبیاری
+          هوشمند فعال شد. · دمای گلخانه ۳ درجه بالای آستانه — تهویه خودکار روشن.
         </div>
       </div>
     </div>
 
-    <!-- ===== Footer ===== -->
     <footer class="footer">
-      🌾 سامانه مدیریت هوشمند کشاورزی · Precision Agriculture Platform · v2.0
+      🌾 سامانه مدیریت هوشمند کشاورزی · Precision Agriculture Platform · v3.0
     </footer>
 
-    <!-- ===== Particles Script ===== -->
     <script>
       (function () {
         const canvas = document.getElementById("particles-canvas");
         const ctx = canvas.getContext("2d");
         let particles = [];
-        const COUNT = 80;
-
+        const COUNT = 60;
         function resize() {
           canvas.width = window.innerWidth;
           canvas.height = window.innerHeight;
         }
         window.addEventListener("resize", resize);
         resize();
-
         class Particle {
           constructor() {
             this.reset();
@@ -948,9 +1616,9 @@
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
             this.size = Math.random() * 2 + 0.5;
-            this.speedX = (Math.random() - 0.5) * 0.4;
-            this.speedY = (Math.random() - 0.5) * 0.4;
-            this.opacity = Math.random() * 0.5 + 0.1;
+            this.speedX = (Math.random() - 0.5) * 0.3;
+            this.speedY = (Math.random() - 0.5) * 0.3;
+            this.opacity = Math.random() * 0.3 + 0.05;
           }
           update() {
             this.x += this.speedX;
@@ -960,40 +1628,34 @@
               this.x > canvas.width ||
               this.y < 0 ||
               this.y > canvas.height
-            ) {
+            )
               this.reset();
-            }
           }
           draw() {
             ctx.beginPath();
             ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(0, 200, 150, ${this.opacity})`;
+            ctx.fillStyle = `rgba(10, 122, 90, ${this.opacity})`;
             ctx.fill();
           }
         }
-
-        for (let i = 0; i < COUNT; i++) {
-          particles.push(new Particle());
-        }
-
+        for (let i = 0; i < COUNT; i++) particles.push(new Particle());
         function animate() {
           ctx.clearRect(0, 0, canvas.width, canvas.height);
           for (const p of particles) {
             p.update();
             p.draw();
           }
-          // Draw connections
           for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
               const dx = particles[i].x - particles[j].x;
               const dy = particles[i].y - particles[j].y;
               const dist = Math.sqrt(dx * dx + dy * dy);
               if (dist < 150) {
-                const alpha = (1 - dist / 150) * 0.08;
+                const alpha = (1 - dist / 150) * 0.06;
                 ctx.beginPath();
                 ctx.moveTo(particles[i].x, particles[i].y);
                 ctx.lineTo(particles[j].x, particles[j].y);
-                ctx.strokeStyle = `rgba(0, 200, 150, ${alpha})`;
+                ctx.strokeStyle = `rgba(10, 122, 90, ${alpha})`;
                 ctx.lineWidth = 0.5;
                 ctx.stroke();
               }
