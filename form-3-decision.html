@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>فرم ۳ — فرم تصمیم‌سازی مدیران فروشگاه</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap');
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: 'Vazirmatn', Tahoma, sans-serif;
+    background: #f5f5f5;
+    color: #1a1a1a;
+    line-height: 1.9;
+    margin: 0;
+    padding: 40px 20px;
+  }
+
+  .page {
+    max-width: 820px;
+    margin: 0 auto;
+    background: #ffffff;
+    padding: 60px 55px;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  }
+
+  h1 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #0f3d2e;
+    border-bottom: 3px solid #0f3d2e;
+    padding-bottom: 14px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 19px;
+    font-weight: 700;
+    color: #0f3d2e;
+    background: #eef5f1;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  .intro {
+    background: #fafafa;
+    border-right: 4px solid #0f3d2e;
+    padding: 14px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #444;
+    margin-bottom: 10px;
+  }
+
+  .q {
+    margin-bottom: 22px;
+    page-break-inside: avoid;
+  }
+
+  .q-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 8px;
+    color: #1a1a1a;
+  }
+
+  .q-num {
+    display: inline-block;
+    background: #0f3d2e;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    margin-left: 8px;
+  }
+
+  .hint {
+    font-size: 12.5px;
+    color: #888;
+    margin-bottom: 6px;
+  }
+
+  ul.options {
+    list-style: none;
+    padding: 0;
+    margin: 8px 0 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+  }
+
+  ul.options li {
+    font-size: 14px;
+    color: #333;
+    position: relative;
+    padding-right: 22px;
+  }
+
+  ul.options li::before {
+    content: "☐";
+    position: absolute;
+    right: 0;
+    color: #0f3d2e;
+    font-size: 15px;
+  }
+
+  ul.options.check li::before {
+    content: "☐";
+  }
+
+  .answer-line {
+    border-bottom: 1px dashed #bbb;
+    height: 26px;
+    margin-top: 6px;
+  }
+
+  .answer-box {
+    border: 1px dashed #bbb;
+    border-radius: 6px;
+    height: 70px;
+    margin-top: 6px;
+  }
+
+  .answer-box.tall {
+    height: 110px;
+  }
+
+  .variant-example {
+    background: #f7faf8;
+    border: 1px solid #d8e3dd;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-top: 10px;
+    font-size: 13.5px;
+    color: #333;
+  }
+
+  .variant-example .title {
+    font-weight: 600;
+    color: #0f3d2e;
+    margin-bottom: 6px;
+  }
+
+  .variant-example ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 20px;
+  }
+
+  .variant-example ul li::before {
+    content: "→ ";
+    color: #0f3d2e;
+    font-weight: 700;
+  }
+
+  .priority {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 8px;
+  }
+
+  .priority .row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .priority .row .num {
+    background: #0f3d2e;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .priority .row .line {
+    flex: 1;
+    border-bottom: 1px dashed #bbb;
+    height: 26px;
+  }
+
+  .footer {
+    margin-top: 50px;
+    text-align: center;
+    font-size: 12px;
+    color: #999;
+    border-top: 1px solid #eee;
+    padding-top: 16px;
+  }
+
+  @media print {
+    body { background: #fff; padding: 0; }
+    .page { box-shadow: none; border-radius: 0; padding: 30px 25px; }
+    h2 { page-break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <h1>فرم ۳ — فرم تصمیم‌سازی مدیران فروشگاه</h1>
+
+  <div class="intro">
+    <strong>هدف:</strong> تبدیل نظر مدیران به داده‌ای که تیم محصول/فروش بتواند براساس آن تصمیم بگیرد.
+    چون سیستم شما فقط فروشگاه نیست و قرار است فروش B2C، عمده، رستوران، قرارداد، موجودی، قیمت و گزارش را پوشش دهد،
+    این فرم شبیه فرم رضایت‌سنجی طراحی نشده است.
+  </div>
+
+  <!-- بخش ۱ -->
+  <h2>بخش ۱ — وضعیت فروش</h2>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱</span> در حال حاضر مهم‌ترین کانال فروش ما چیست؟</div>
+    <ul class="options">
+      <li>سایت</li>
+      <li>فروش حضوری</li>
+      <li>تلفنی</li>
+      <li>شبکه‌های اجتماعی</li>
+      <li>عمده</li>
+      <li>رستوران</li>
+      <li>سایر</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲</span> انتظار دارید در ۶ ماه آینده سهم فروش آنلاین چقدر باشد؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۳</span> کدام نوع مشتری برای کسب‌وکار اهمیت بیشتری دارد؟</div>
+    <ul class="options">
+      <li>B2C</li>
+      <li>عمده</li>
+      <li>رستوران</li>
+      <li>سازمانی</li>
+      <li>سایر</li>
+    </ul>
+    <div class="hint">این سؤال برای رتبه‌بندی رقابتی استفاده نمی‌شود؛ فقط برای مشخص‌کردن اولویت کسب‌وکار است.</div>
+  </div>
+
+  <!-- بخش ۲ -->
+  <h2>بخش ۲ — محصولات</h2>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۴</span> کدام دسته محصولات باید در سایت اولویت نمایش داشته باشند؟</div>
+    <div class="answer-box"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۵</span> آیا محصولات باید بر اساس چه چیزی دسته‌بندی شوند؟</div>
+    <ul class="options">
+      <li>نوع برنج</li>
+      <li>منطقه</li>
+      <li>کیفیت</li>
+      <li>قیمت</li>
+      <li>وزن</li>
+      <li>کاربرد</li>
+      <li>برند</li>
+      <li>اقتصادی / معمولی / پریمیوم</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۶</span> آیا قیمت محصولات ممکن است تغییر کند؟</div>
+    <ul class="options">
+      <li>روزانه</li>
+      <li>هفتگی</li>
+      <li>ماهانه</li>
+      <li>براساس تأمین‌کننده</li>
+      <li>براساس بازار</li>
+      <li>سایر</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۷</span> آیا برای یک محصول باید چند Variant داشته باشیم؟</div>
+    <div class="hint">مثلاً:</div>
+    <div class="variant-example">
+      <div class="title">برنج طارم</div>
+      <ul>
+        <li>5kg</li>
+        <li>10kg</li>
+        <li>20kg</li>
+        <li>50kg</li>
+      </ul>
+    </div>
+    <div class="answer-line" style="margin-top:12px;"></div>
+  </div>
+
+  <!-- بخش ۳ -->
+  <h2>بخش ۳ — فروش عمده</h2>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۸</span> از چه مقدار خرید، مشتری عمده محسوب می‌شود؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۹</span> آیا قیمت عمده باید به‌صورت خودکار محاسبه شود؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱۰</span> قیمت عمده براساس چه چیزی تعیین شود؟</div>
+    <ul class="options">
+      <li>مقدار خرید</li>
+      <li>نوع مشتری</li>
+      <li>قرارداد</li>
+      <li>محصول</li>
+      <li>مدت همکاری</li>
+      <li>توافق مدیر فروش</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱۱</span> آیا مشتری عمده باید پنل اختصاصی داشته باشد؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <!-- بخش ۴ -->
+  <h2>بخش ۴ — رستوران و قرارداد</h2>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱۲</span> برای رستوران چه اطلاعاتی باید دریافت کنیم؟</div>
+    <ul class="options check">
+      <li>نام مجموعه</li>
+      <li>نوع مجموعه</li>
+      <li>مصرف ماهانه</li>
+      <li>محصول موردنیاز</li>
+      <li>مقدار سفارش</li>
+      <li>بودجه</li>
+      <li>آدرس</li>
+      <li>شرایط پرداخت</li>
+      <li>سایر</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱۳</span> قرارداد رستوران معمولاً شامل چه مواردی است؟</div>
+    <div class="answer-box"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱۴</span> آیا قیمت قرارداد باید با قیمت فروشگاه متفاوت باشد؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱۵</span> آیا قرارداد می‌تواند قیمت ثابت داشته باشد؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱۶</span> آیا قرارداد باید تاریخ شروع و پایان داشته باشد؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱۷</span> آیا سهمیه / مقدار تأمین ماهانه برای قرارداد داریم؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <!-- بخش ۵ -->
+  <h2>بخش ۵ — تجربه خرید</h2>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱۸</span> مهم‌ترین اطلاعاتی که مشتری قبل از خرید باید ببیند چیست؟</div>
+    <div class="hint">حداکثر ۵ مورد:</div>
+    <ul class="options">
+      <li>قیمت</li>
+      <li>وزن</li>
+      <li>نوع برنج</li>
+      <li>منطقه تولید</li>
+      <li>کیفیت</li>
+      <li>مشخصات پخت</li>
+      <li>عکس</li>
+      <li>ویدئو</li>
+      <li>نظرات مشتریان</li>
+      <li>موجودی</li>
+      <li>زمان ارسال</li>
+      <li>سایر</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۱۹</span> آیا امکان مقایسه محصولات نیاز است؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲۰</span> آیا پیشنهاد خرید مجدد نیاز است؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲۱</span> آیا سیستم باید محصولات مرتبط پیشنهاد دهد؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <!-- بخش ۶ -->
+  <h2>بخش ۶ — تصمیم‌های مدیریتی</h2>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲۲</span> مدیر فروش برای تصمیم‌گیری به چه گزارش‌هایی نیاز دارد؟</div>
+    <ul class="options check">
+      <li>فروش روزانه</li>
+      <li>فروش ماهانه</li>
+      <li>فروش بر اساس محصول</li>
+      <li>فروش بر اساس وزن</li>
+      <li>فروش بر اساس مشتری</li>
+      <li>فروش عمده</li>
+      <li>فروش رستوران</li>
+      <li>سود</li>
+      <li>موجودی</li>
+      <li>محصولات کم‌فروش</li>
+      <li>محصولات پرفروش</li>
+      <li>سفارش‌های لغوشده</li>
+      <li>سفارش‌های برگشتی</li>
+      <li>میانگین ارزش سفارش</li>
+      <li>نرخ خرید مجدد</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲۳</span> مهم‌ترین KPIهایی که می‌خواهید در Dashboard ببینید چیست؟</div>
+    <div class="answer-box tall"></div>
+  </div>
+
+  <!-- بخش ۷ -->
+  <h2>بخش ۷ — قوانین کسب‌وکار</h2>
+
+  <div class="intro" style="margin-bottom:18px;">
+    این بخش برای طراحی Core سیستم بسیار مهم است.
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲۴</span> چه زمانی یک سفارش «فروش موفق» محسوب می‌شود؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲۵</span> چه زمانی موجودی از انبار کم می‌شود؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲۶</span> اگر مشتری سفارش را لغو کند، موجودی چه زمانی برگردد؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲۷</span> اگر پرداخت موفق باشد ولی تأمین‌کننده موجودی نداشته باشد، چه اتفاقی بیفتد؟</div>
+    <div class="answer-box"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲۸</span> اگر قیمت محصول بین ثبت سفارش و تأمین تغییر کند، کدام قیمت معتبر است؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۲۹</span> اگر تأمین‌کننده نتواند سفارش را تأمین کند، چه کسی تصمیم می‌گیرد؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۳۰</span> آیا مدیر می‌تواند قیمت محصول را Override کند؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۳۱</span> آیا برای مشتری خاص قیمت اختصاصی داریم؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۳۲</span> آیا برای مشتری خاص تخفیف اختصاصی داریم؟</div>
+    <div class="answer-line"></div>
+  </div>
+
+  <!-- بخش ۸ -->
+  <h2>بخش ۸ — اولویت‌های نسخه اول</h2>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۳۳</span> کدام قابلیت‌ها باید حتماً در Version 1 باشند؟</div>
+    <ul class="options check">
+      <li>فروش B2C</li>
+      <li>پنل مشتری</li>
+      <li>پنل ادمین</li>
+      <li>پنل تأمین‌کننده</li>
+      <li>محصول Variant</li>
+      <li>درگاه پرداخت</li>
+      <li>تخفیف</li>
+      <li>فروش عمده</li>
+      <li>درخواست همکاری رستوران</li>
+      <li>قرارداد</li>
+      <li>گزارش فروش</li>
+      <li>مدیریت موجودی</li>
+      <li>تسویه</li>
+      <li>سایر</li>
+    </ul>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۳۴</span> کدام قابلیت‌ها می‌توانند به نسخه بعد منتقل شوند؟</div>
+    <div class="answer-box tall"></div>
+  </div>
+
+  <div class="q">
+    <div class="q-title"><span class="q-num">۳۵</span> سه مشکل اصلی که این سیستم باید برای کسب‌وکار حل کند چیست؟</div>
+    <div class="priority">
+      <div class="row"><span class="num">۱</span><span class="line"></span></div>
+      <div class="row"><span class="num">۲</span><span class="line"></span></div>
+      <div class="row"><span class="num">۳</span><span class="line"></span></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    فرم ۳ — فرم تصمیم‌سازی مدیران فروشگاه
+  </div>
+
+</div>
+</body>
+</html>
